@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class FMResultSet;
+
 @interface QQMusicSongInfo : NSObject
 
 @property (nonatomic, retain) NSString* idStr;
@@ -34,6 +36,11 @@
 @property (nonatomic, retain) NSString* songLrcURLStr;
 @property (nonatomic, retain) NSString* playTimeSwitchedStr;
 
+@property (nonatomic, retain) NSString* md5;
+@property (nonatomic, retain) NSString* path;
+@property (nonatomic, retain) NSDictionary* infoDict;
+
 - (id)initWithDictionary: (NSDictionary* )dict;
+- (id)initWithFMResultSet:(FMResultSet *)fmResult;
 
 @end

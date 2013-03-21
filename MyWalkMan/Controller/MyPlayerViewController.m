@@ -12,6 +12,10 @@
 #import "QQMusicDataManager.h"
 #import "LoadingView.h"
 #import "PromptView.h"
+#import "DownloadListViewController.h"
+#import "FMDatabase.h"
+#import <AVFoundation/AVFoundation.h>
+#import "NSString+MD5.h"
 
 @interface MyPlayerViewController ()
 
@@ -52,7 +56,9 @@
     self.endTimeLabel.text = self.info.playTimeSwitchedStr;
     
     [self.albumImageView setImageWithURL:[NSURL URLWithString:self.info.albumURLStr]
-                        placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"]];
+                        placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                            [self addReflectionLayerInView:self.albumImageView];
+                        }];
     
     CALayer* reflectionLayer = [CALayer layer];
     reflectionLayer.contents = [self.albumImageView layer].contents;
@@ -87,6 +93,8 @@
                                                        queue:[NSOperationQueue mainQueue]
                                                   usingBlock:^(NSNotification *note) {
                                                       offset = 0.0f;
+                                                      self.pauseBtn.hidden = NO;
+                                                      self.playBtn.hidden = YES;
                                                       self.lrcMaskImageView.hidden = YES;
                                                       self.lrcBgScrollView.hidden = YES;
                                                       isExitLrcView = NO;
@@ -124,8 +132,14 @@
                                                       self.playingtimeSlider.value = [[MyWalkManSoundEngine shareEngine] getProgress];
                                                       if (isExitLrcView)
                                                       {
-                                                          [self totalTimeInterval:[MyWalkManSoundEngine shareEngine].streamerEngine.duration
-                                                              currentTimeInterval:[MyWalkManSoundEngine shareEngine].streamerEngine.progress];
+                                                          if ([MyWalkManSoundEngine shareEngine].isLocale)
+                                                          {
+                                                              [self musicDuration:[MyWalkManSoundEngine shareEngine].avAudioPlayer.duration currentTime:[MyWalkManSoundEngine shareEngine].avAudioPlayer.currentTime];
+                                                          }
+                                                          else
+                                                          {
+                                                              [self musicDuration:[MyWalkManSoundEngine shareEngine].streamerEngine.duration currentTime:[MyWalkManSoundEngine shareEngine].streamerEngine.progress];
+                                                          }
                                                       }
                                                   }];
 }
@@ -185,6 +199,7 @@
 }
 
 - (void)dealloc {
+    [downloadQueue release];
     [_albumImageView release];
     [_playBtn release];
     [_preBtn release];
@@ -214,6 +229,7 @@
 }
 
 - (void)viewDidUnload {
+    downloadQueue = nil;
     [self setAlbumImageView:nil];
     [self setPlayBtn:nil];
     [self setPreBtn:nil];
@@ -242,19 +258,49 @@
     [super viewDidUnload];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"PlayerToDownload"])
+    {
+        DownloadListViewController* childVC = segue.destinationViewController;
+        childVC.dataArray = downloadQueue;
+    }
+}
+
 #pragma mark - IBAction Methods
 - (IBAction)playBtnAction:(UIButton *)sender
 {
     self.playBtn.hidden = YES;
     self.pauseBtn.hidden = NO;
-    [[MyWalkManSoundEngine shareEngine] resumePlay];
+    MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
+    if (engine.isLocale)
+    {
+        if (bgTaskId != UIBackgroundTaskInvalid)
+        {
+            [[UIApplication sharedApplication] endBackgroundTask:bgTaskId];
+        }
+        [engine.avAudioPlayer play];
+    }
+    else
+    {
+        [engine.streamerEngine start];
+    }
 }
 
 - (IBAction)pauseBtnAction:(UIButton *)sender
 {
     self.playBtn.hidden = NO;
     self.pauseBtn.hidden = YES;
-    [[MyWalkManSoundEngine shareEngine] pause];
+    MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
+    if (engine.isLocale)
+    {
+        bgTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:NULL];
+        [engine.avAudioPlayer pause];
+    }
+    else
+    {
+        [engine.streamerEngine pause];
+    }
 }
 
 - (IBAction)preBtnAction:(UIButton *)sender
@@ -266,25 +312,6 @@
     isLrcViewShow = NO;
     
     [[MyWalkManSoundEngine shareEngine] playingSongChange:NO];
-    
-    QQMusicSongInfo* info = [[MyWalkManSoundEngine shareEngine].dataArray objectAtIndex:[MyWalkManSoundEngine shareEngine].toPlayingRow];
-    
-    CATransition* animation = [CATransition animation];
-    animation.duration = 0.5f;
-    animation.timingFunction = UIViewAnimationCurveEaseInOut;
-    animation.type = kCATransitionPush;
-    animation.subtype = kCATransitionFromLeft;
-    
-    [self.albumImageView setImageWithURL:[NSURL URLWithString:info.albumURLStr] placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        [self addReflectionLayerInView:self.albumImageView];
-    }];
-    [self addReflectionLayerInView:self.albumImageView];
-    
-    self.singerNameLabel.text = info.singerName;
-    self.albumNameLabel.text = info.albumName;
-    self.titleLabel.text = info.songName;
-    
-    [[self.albumImageView layer] addAnimation:animation forKey:@"animation"];
 }
 
 - (IBAction)nextBtnAction:(UIButton *)sender
@@ -296,24 +323,6 @@
     isLrcViewShow = NO;
     
     [[MyWalkManSoundEngine shareEngine] playingSongChange:YES];
-    
-    QQMusicSongInfo* info = [[MyWalkManSoundEngine shareEngine].dataArray objectAtIndex:[MyWalkManSoundEngine shareEngine].toPlayingRow];
-    
-    CATransition* animation = [CATransition animation];
-    animation.duration = 0.5f;
-    animation.timingFunction = UIViewAnimationCurveEaseInOut;
-    animation.type = kCATransitionPush;
-    animation.subtype = kCATransitionFromRight;
-    
-    [self.albumImageView setImageWithURL:[NSURL URLWithString:info.albumURLStr] placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        [self addReflectionLayerInView:self.albumImageView];
-    }];
-    [self addReflectionLayerInView:self.albumImageView];
-    self.singerNameLabel.text = info.singerName;
-    self.albumNameLabel.text = info.albumName;
-    self.titleLabel.text = info.songName;
-    
-    [[self.albumImageView layer] addAnimation:animation forKey:@"animation"];
 }
 
 - (IBAction)playingtimeSliderChanged:(UISlider *)sender
@@ -322,7 +331,19 @@
     QQMusicSongInfo* info = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
     double destinationTime = sender.value * info.playTimeInt;
     self.beginTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", (int)destinationTime / 60, (int)destinationTime % 60];
-    [engine.streamerEngine seekToTime:destinationTime];
+    if (engine.isLocale)
+    {
+        [engine.avAudioPlayer stop];
+        [engine.avAudioPlayer setCurrentTime:destinationTime];
+        [engine.avAudioPlayer prepareToPlay];
+        [engine.avAudioPlayer play];
+    }
+    else
+    {
+        [engine.streamerEngine pause];
+        [engine.streamerEngine seekToTime:destinationTime];
+        [engine.streamerEngine start];
+    }
 }
 
 - (IBAction)popBackBtnAction:(UIButton *)sender
@@ -349,7 +370,108 @@
 - (IBAction)addtoBtnAction:(UIButton *)sender {
 }
 
-- (IBAction)downloadBtnAction:(UIButton *)sender {
+- (IBAction)downloadBtnAction:(UIButton *)sender
+{
+    MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
+    QQMusicSongInfo* nowPlayingInfo = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
+    
+    NSString* resultStr = [NSString calMD5WithName:nowPlayingInfo.songURLStr];
+    
+    /*
+     *  下载触发时，先判断localmusic中是否存在这首歌：
+     *  1.存在这首歌：直接跳转提示动画，告知用户本地乐库中已有这首歌
+     *  2.不存在这首歌：再判断localstream中是否存在这首歌：
+     *                                              a.存在这首歌：将这首歌从相应的文件夹复制到对应的文件夹中后，删除原文件夹中的歌
+     *                                                          曲，并更新相应表的相应数据
+     *                                              b.不存在这首歌：启动ASIHTTPRequest进行下载
+     *
+     */
+    NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
+    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+    if (![db open])
+    {
+        NSLog(@"%s-----db open error", __func__);
+    }
+    FMResultSet* resultFMSetInMusic = [db executeQuery:@"select * from localmusic where idStr = ?", nowPlayingInfo.idStr];
+    if (resultFMSetInMusic.next)
+    {
+        PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"这位“歌歌”已经在后宫了哦！" Duration:1.5f] autorelease];
+        [self.view addSubview:tipsView];
+        [tipsView animationBeginAndEnd];
+        [db close];
+        [self swipDown:nil];
+        return;
+    }
+    else
+    {
+        FMResultSet* resultInStream = [db executeQuery:@"select * from localstream where idStr = ?", nowPlayingInfo.idStr];
+        if (resultInStream.next)
+        {
+            NSString* cache = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            // 判断localmusic文件夹是否存在，不存在则创建
+            NSString* docFilePath = [cache stringByAppendingString:@"/com.youngsing.cachemusic"];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:docFilePath])
+            {
+                [[NSFileManager defaultManager] createDirectoryAtPath:docFilePath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            
+            // 获取保存路径，并进行相应的复制、删除操作
+            NSString* filePathInMusic = [cache stringByAppendingFormat:@"/com.youngsing.cachemusic/%@.mp3", [resultInStream stringForColumn:@"md5"]];
+            [[NSFileManager defaultManager] copyItemAtPath:[resultInStream stringForColumn:@"path"]
+                                                    toPath:filePathInMusic
+                                                     error:nil];
+            [[NSFileManager defaultManager] removeItemAtPath:[resultInStream stringForColumn:@"path"]
+                                                       error:nil];
+            QQMusicSongInfo* cutInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultInStream] autorelease];
+            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:cutInfo.infoDict];
+            [dict setValue:filePathInMusic forKey:@"path"];
+            [db executeUpdate:InsertIntoLocalMusicDatebase withParameterDictionary:dict];
+            [db executeUpdate:@"delete from localstream where idStr = ?", [resultInStream stringForColumn:@"idStr"]];
+            
+            SystemSoundID soundID;
+            NSURL* soundURL = [[NSBundle mainBundle] URLForResource:@"success" withExtension:@"caf"];
+            AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
+            AudioServicesPlaySystemSound(soundID);
+            [db close];
+            [self swipDown:nil];
+            return;
+        }
+    }
+
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:nowPlayingInfo.songURLStr]];
+    if (downloadQueue == nil)
+    {
+        downloadQueue = [NSMutableArray array];
+    }
+    [downloadQueue addObject:request];
+    [request setCompletionBlock:^{
+        
+        [downloadQueue removeObjectAtIndex:0];
+        
+        SystemSoundID soundID;
+        NSURL* soundURL = [[NSBundle mainBundle] URLForResource:@"success" withExtension:@"caf"];
+        AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
+        AudioServicesPlaySystemSound(soundID);
+        
+        NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        path = [path stringByAppendingFormat:@"/com.youngsing.cachemusic/%@.mp3", resultStr];
+        NSLog(@"%@", path);
+        [request.responseData writeToFile:path atomically:YES];
+        
+        NSMutableDictionary* dbDict = [NSMutableDictionary dictionaryWithDictionary:nowPlayingInfo.infoDict];
+        [dbDict setValue:resultStr forKey:@"md5"];
+        [dbDict setValue:path forKey:@"path"];
+        [db executeUpdate:InsertIntoLocalMusicDatebase withParameterDictionary:dbDict];
+        [db close];
+    }];
+    [request setFailedBlock:^{
+        NSLog(@"%s 下载出错", __FUNCTION__);
+    }];
+    [request startAsynchronous];
+    [self swipDown:nil];
+    [self performSegueWithIdentifier:@"PlayerToDownload" sender:self];
 }
 
 - (IBAction)moreBtnAction:(UIButton *)sender {
@@ -458,11 +580,12 @@
     isLrcViewShow = NO;
 }
 
-- (void)totalTimeInterval:(NSTimeInterval)total currentTimeInterval:(NSTimeInterval)timeInterval
+
+- (void)musicDuration: (NSTimeInterval)duration currentTime: (NSTimeInterval)current
 {
     if ([[MyWalkManSoundEngine shareEngine].lrc.lrcKeys count] > index)
     {
-        if ([[[MyWalkManSoundEngine shareEngine].lrc.lrcKeys objectAtIndex:index] doubleValue] <= timeInterval)
+        if ([[[MyWalkManSoundEngine shareEngine].lrc.lrcKeys objectAtIndex:index] doubleValue] <= current)
         {
             [self refreshView];
         }
@@ -504,13 +627,22 @@
     CGSize size = [lrcStr sizeWithFont:self.lrcLabel.font
                      constrainedToSize:CGSizeMake(self.lrcLabel.frame.size.width, NSIntegerMax)
                          lineBreakMode:self.lrcLabel.lineBreakMode];
-    self.lrcLabel.frame = CGRectMake(0, 120, 320, size.height);
+    
+    self.lrcLabel.frame = CGRectMake(0, 120, self.lrcLabel.frame.size.width, size.height);
     
     self.lrcBgScrollView.contentSize = CGSizeMake(size.width, size.height);
-    self.selectedLrcLabel.frame = CGRectMake(0, 0, 320, self.lrcLabel.font.lineHeight);
+    self.selectedLrcLabel.frame = CGRectMake(0, 0, size.width, self.lrcLabel.font.lineHeight);
     [self.lrcLabel addSubview:self.selectedLrcLabel];
     
-    NSInteger currentTime = (int)[MyWalkManSoundEngine shareEngine].streamerEngine.progress;
+    NSInteger currentTime = 0;
+    if ([MyWalkManSoundEngine shareEngine].isLocale)
+    {
+        currentTime = (int)[MyWalkManSoundEngine shareEngine].avAudioPlayer.currentTime;
+    }
+    else
+    {
+        currentTime = (int)[MyWalkManSoundEngine shareEngine].streamerEngine.progress;
+    }
     NSArray* keyArray = [MyWalkManSoundEngine shareEngine].lrc.lrcKeys;
     for (int i = 0; i < keyArray.count; ++i)
     {

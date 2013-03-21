@@ -10,4 +10,6 @@
 
 @interface NSString (MD5)
 
++ (NSString* )calMD5WithName: (NSString* )name;
+
 @end

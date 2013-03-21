@@ -10,4 +10,8 @@
 
 @interface DownloadListViewController : UITableViewController
 
+@property (nonatomic, retain) NSMutableArray* dataArray;
+@property (nonatomic, retain) NSMutableArray* downloadQueue;
+
+- (IBAction)dismissBtnAction:(UIButton *)sender;
 @end

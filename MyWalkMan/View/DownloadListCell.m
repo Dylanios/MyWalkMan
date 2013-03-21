@@ -26,4 +26,19 @@
     // Configure the view for the selected state
 }
 
+- (void)dealloc {
+    [_albumImageView release];
+    [_progressView release];
+    [_progressLabel release];
+    [_songNameLabel release];
+    [_singerAndAlbumNameLabel release];
+    [_cancelBtn release];
+    [_pauseBtn release];
+    [super dealloc];
+}
+- (IBAction)pauseBtnAction:(UIButton *)sender {
+}
+
+- (IBAction)cancelBtnAction:(UIButton *)sender {
+}
 @end

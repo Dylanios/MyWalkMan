@@ -13,6 +13,7 @@
 //
 
 #import "AudioStreamer.h"
+#import "MyWalkManSoundEngine.h"
 #if TARGET_OS_IPHONE			
 #import <CFNetwork/CFNetwork.h>
 #import "UIDevice+Hardware.h"
@@ -1475,6 +1476,18 @@ cleanup:
 			{
 				return;
 			}
+            
+            NSString* cacheLocation = [MyWalkManSoundEngine shareEngine].cacheStreamLocation;
+            if (cacheLocation)
+            {
+                NSFileHandle *mp3 = [NSFileHandle fileHandleForWritingAtPath:cacheLocation];
+                
+                [mp3 seekToEndOfFile];
+                [mp3 writeData:[NSData dataWithBytes:bytes length:length]];
+                
+                [mp3 closeFile];
+            }
+            
 #ifdef SHOUTCAST_METADATA
 			// shoutcast parsing code from http://code.google.com/p/audiostreamer-meta/
 			// with modifications by John Fricker

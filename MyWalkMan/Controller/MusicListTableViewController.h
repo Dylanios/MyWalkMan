@@ -10,7 +10,7 @@
 
 @interface MusicListTableViewController : UITableViewController
 
-@property (nonatomic, retain) NSArray* dataArray;
+@property (nonatomic, retain) NSMutableArray* dataArray;
 
 - (IBAction)dismissBarBtnAction:(id)sender;
 

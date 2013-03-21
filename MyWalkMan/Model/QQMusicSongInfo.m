@@ -7,6 +7,7 @@
 //
 
 #import "QQMusicSongInfo.h"
+#import "FMResultSet.h"
 
 @implementation QQMusicSongInfo
 
@@ -25,6 +26,42 @@
         _albumLinkStr = [[dict objectForKey:@"albumLink"] retain];
         _playTimeStr = [[dict objectForKey:@"playtime"] retain];
         [self moreHandle];
+    }
+    return self;
+}
+
+- (id)initWithFMResultSet:(FMResultSet *)result
+{
+    if (self = [super init])
+    {
+        _idStr = [[result stringForColumn:@"idStr"] retain];
+        _typeStr = [[result stringForColumn:@"typeStr"] retain];
+        _urlStr = [[result stringForColumn:@"urlStr"] retain];
+        _songName = [[result stringForColumn:@"songName"] retain];
+        _singerIdStr = [[result stringForColumn:@"singerIdStr"] retain];
+        _singerName = [[result stringForColumn:@"singerName"] retain];
+        _albumIdStr = [[result stringForColumn:@"albumIdStr"] retain];
+        _albumName = [[result stringForColumn:@"albumName"] retain];
+        _albumLinkStr = [[result stringForColumn:@"albumLinkStr"] retain];
+        _playTimeStr = [[result stringForColumn:@"playTimeStr"] retain];
+        _matchStr = [[result stringForColumn:@"matchStr"] retain];
+        _songURLStr = [[result stringForColumn:@"songURLStr"] retain];
+        _albumURLStr = [[result stringForColumn:@"albumURLStr"] retain];
+        _songLrcURLStr = [[result stringForColumn:@"songLrcURLStr"] retain];
+        _playTimeSwitchedStr = [[result stringForColumn:@"playTimeSwitchedStr"] retain];
+        _md5 = [[result stringForColumn:@"md5"] retain];
+        _path = [[result stringForColumn:@"path"] retain];
+        
+        _idInt = [_idStr intValue];
+        _typeInt = [_typeStr intValue];
+        _singerIdInt = [_singerIdStr intValue];
+        _albumIdInt = [_albumIdStr intValue];
+        _playTimeInt = [_playTimeStr intValue];
+        
+        if (!self.infoDict.count)
+        {
+            self.infoDict = [NSDictionary dictionaryWithObjectsAndKeys:_idStr, @"idStr", _typeStr, @"typeStr", _urlStr, @"urlStr", _songName, @"songName", _singerIdStr, @"singerIdStr", _singerName, @"singerName", _albumIdStr, @"albumIdStr", _albumName, @"albumName", _albumLinkStr, @"albumLinkStr", _playTimeStr, @"playTimeStr", _matchStr, @"matchStr", _songURLStr, @"songURLStr", _albumURLStr, @"albumURLStr", _songLrcURLStr, @"songLrcURLStr", _playTimeSwitchedStr, @"playTimeSwitchedStr", _md5, @"md5", _path, @"path", nil];
+        }
     }
     return self;
 }
@@ -54,6 +91,8 @@
     self.songLrcURLStr = [NSString stringWithFormat:@"http://music.qq.com/miniportal/static/lyric/%d/%@.xml", _idInt % 100, _idStr];
     self.playTimeSwitchedStr = [NSString stringWithFormat:@"%02d:%02d", _playTimeInt / 60,
                         _playTimeInt % 60];
+    
+    self.infoDict = [NSDictionary dictionaryWithObjectsAndKeys:_idStr, @"idStr", _typeStr, @"typeStr", _urlStr, @"urlStr", _songName, @"songName", _singerIdStr, @"singerIdStr", _singerName, @"singerName", _albumIdStr, @"albumIdStr", _albumName, @"albumName", _albumLinkStr, @"albumLinkStr", _playTimeStr, @"playTimeStr", _matchStr, @"matchStr", _songURLStr, @"songURLStr", _albumURLStr, @"albumURLStr", _songLrcURLStr, @"songLrcURLStr", _playTimeSwitchedStr, @"playTimeSwitchedStr", nil];
 }
 
 @end

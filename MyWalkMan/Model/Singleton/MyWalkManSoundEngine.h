@@ -10,12 +10,15 @@
 #import "AudioStreamer.h"
 #import "QQMusicSongInfo.h"
 #import "YSLrcParser.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface MyWalkManSoundEngine : NSObject
+@interface MyWalkManSoundEngine : NSObject <AVAudioPlayerDelegate>
 
+@property (nonatomic, assign) BOOL isLocale;
+@property (nonatomic, retain) AVAudioPlayer* avAudioPlayer;
 @property (nonatomic, retain) AudioStreamer* streamerEngine;
 
-@property (nonatomic, retain) NSArray* dataArray;
+@property (nonatomic, retain) NSMutableArray* dataArray;
 
 @property (nonatomic, assign) BOOL isPlaying;
 
@@ -25,14 +28,14 @@
 
 @property (nonatomic, retain) NSTimer* currentTimerProgress;
 
+@property (nonatomic, retain) NSString* cacheStreamLocation;
+
 @property (nonatomic, retain) NSMutableDictionary* cacheLrcDict;
 @property (nonatomic, retain) YSLrc* lrc;
 @property (nonatomic, assign) BOOL isLrcExit;
 
 + (MyWalkManSoundEngine* )shareEngine;
 - (void)engineStart;
-- (void)resumePlay;
-- (void)pause;
 - (void)playingSongChange: (BOOL)isNext;
 - (double)getProgress;
 - (NSString* )currentTime;

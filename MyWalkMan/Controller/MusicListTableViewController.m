@@ -12,6 +12,10 @@
 #import "QQMusicSongInfo.h"
 #import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import "FMDatabase.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "FMDatabaseAdditions.h"
 
 @interface MusicListTableViewController ()
 
@@ -57,7 +61,7 @@
     QQMusicSongInfo* info = [self.dataArray objectAtIndex:indexPath.row];
     
     [cell.albumImageView setImageWithURL:[NSURL URLWithString:info.albumURLStr]
-                        placeholderImage:[UIImage imageNamed:@"3.jpg"]];
+                        placeholderImage:[UIImage imageNamed:@"channel_first_release_default_image_small.png"]];
     cell.songNameLabel.text = info.songName;
     cell.singerNameLabel.text = [NSString stringWithFormat:@"%@ ● %@", info.singerName, info.albumName];
     cell.playTimeLabel.text = info.playTimeSwitchedStr;

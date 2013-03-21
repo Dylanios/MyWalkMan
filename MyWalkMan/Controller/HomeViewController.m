@@ -13,6 +13,7 @@
 #import "MusicListTableViewController.h"
 #import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
+#import "FMDatabase.h"
 
 @interface HomeViewController ()
 
@@ -93,12 +94,40 @@
     }
     
     MusicListTableViewController* childVC = segue.destinationViewController;
-    childVC.dataArray = self.dataArray;
+    childVC.dataArray = [NSMutableArray arrayWithArray:self.dataArray];
 }
 
 - (IBAction)homeBtnAction:(UIButton *)sender
 {
-    NSString* keyURLString = [urlArray objectAtIndex:sender.tag - 100];
+    int flag = sender.tag - 100;
+    //本地播放直接跳转
+    if (flag == 8 || flag == 9)
+    {
+        NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
+        FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+        [db open];
+        FMResultSet* result = nil;
+        if (flag == 8)
+            result = [db executeQuery:@"select * from localmusic"];
+        else
+            result = [db executeQuery:@"select * from localstream"];
+        
+        NSMutableArray* localMusicArray = [NSMutableArray array];
+        while ([result next])
+        {
+            @autoreleasepool {
+                QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
+                [localMusicArray addObject:info];
+            }
+        }
+        [db close];
+        self.dataArray = localMusicArray;
+        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
+        return;
+    }
+    
+    NSString* keyURLString = [urlArray objectAtIndex:flag];
     NSData* cacheData = [cacheDict objectForKey:keyURLString];
     if (cacheData != nil)
     {
@@ -127,25 +156,52 @@
 
 - (IBAction)homePlayBtnAction:(UIButton *)sender
 {
-    NSString* keyURLString = [urlArray objectAtIndex:sender.tag - 100];
+    int flag = sender.tag - 100;
+    
+    if (flag == 8 || flag == 9)
+    {
+        NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
+        FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+        [db open];
+        FMResultSet* result = nil;
+        if (flag == 8)
+            result = [db executeQuery:@"select * from localmusic"];
+        else
+            result = [db executeQuery:@"select * from localstream"];
+        
+        NSMutableArray* localMusicArray = [NSMutableArray array];
+        while ([result next])
+        {
+            @autoreleasepool {
+                QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
+                [localMusicArray addObject:info];
+            }
+        }
+        [db close];
+        self.dataArray = localMusicArray;
+        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
+        return;
+    }
+    
+    NSString* keyURLString = [urlArray objectAtIndex:flag];
     NSData* cacheData = [cacheDict objectForKey:keyURLString];
     if (cacheData != nil)
     {
         self.dataArray = [QQMusicDataManager handleWithData:cacheData];
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
-                                  sender:self];
+        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
         return;
     }
     
-    NSLog(@"%@", [urlArray objectAtIndex:sender.tag - 100]);
-    NSURL* url = [NSURL URLWithString:[urlArray objectAtIndex:sender.tag - 100]];
+    NSLog(@"%@", [urlArray objectAtIndex:flag]);
+    NSURL* url = [NSURL URLWithString:[urlArray objectAtIndex:flag]];
     
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:url];
     
     [request setCompletionBlock:^{
         [cacheDict setObject:request.responseData forKey:keyURLString];
         self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
-        [MyWalkManSoundEngine shareEngine].dataArray = self.dataArray;
+        [MyWalkManSoundEngine shareEngine].dataArray = [NSMutableArray arrayWithArray:self.dataArray];
         [MyWalkManSoundEngine shareEngine].toPlayingRow = 0;
         [[MyWalkManSoundEngine shareEngine] engineStart];
     }];
