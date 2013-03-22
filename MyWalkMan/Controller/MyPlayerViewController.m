@@ -268,10 +268,6 @@
     MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
     if (engine.isLocale)
     {
-        if (bgTaskId != UIBackgroundTaskInvalid)
-        {
-            [[UIApplication sharedApplication] endBackgroundTask:bgTaskId];
-        }
         [engine.avAudioPlayer play];
     }
     else
@@ -287,7 +283,6 @@
     MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
     if (engine.isLocale)
     {
-        bgTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:NULL];
         [engine.avAudioPlayer pause];
     }
     else
@@ -435,7 +430,8 @@
     
     for (ASIHTTPRequest* request in [MyWalkManDownLoadEngine shareEngine].requestArray)
     {
-        if ([request.originalURL.absoluteString isEqualToString:nowPlayingInfo.songURLStr])
+        if ([request.originalURL.absoluteString isEqualToString:nowPlayingInfo.songURLStr]
+            || [request.url.absoluteString isEqualToString:nowPlayingInfo.songURLStr])
         {
             PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"这位“歌歌”已经在入宫的队列中了，啦啦啦～～～"
                                                              Duration:1.5f] autorelease];

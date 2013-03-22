@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface YSAppDelegate : UIResponder <UIApplicationDelegate>
+{
+    UIBackgroundTaskIdentifier bgTaskId;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
