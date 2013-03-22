@@ -10,6 +10,7 @@
 
 @interface RegardToViewController : UIViewController
 
+@property (retain, nonatomic) IBOutlet UILabel *tipsLabel;
 @property (retain, nonatomic) IBOutlet UIButton *affirmBtn;
 
 - (IBAction)affirmBtnAction:(UIButton *)sender;
