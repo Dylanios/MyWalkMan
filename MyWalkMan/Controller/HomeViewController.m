@@ -14,6 +14,7 @@
 #import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
 #import "FMDatabase.h"
+#import "MyWalkManDownLoadEngine.h"
 
 @interface HomeViewController ()
 
@@ -52,6 +53,11 @@
                 @"http://music.qq.com/musicbox/shop/v3/data/hit/hit_soft.js",
                 nil];
     cacheDict = [[NSMutableDictionary alloc] initWithCapacity:8];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(downloadStateChanged:)
+                                                 name:YSDownloadStateChangedNotification
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,11 +68,11 @@
 
 - (void)dealloc
 {
-    [cacheDict release], cacheDict = nil;
-    [urlArray release], urlArray = nil;
-    [_homeBtn release];
-    [_mainScrollView release];
-    [_pageCtrl release];
+    RELEASE_SAFELY(cacheDict);
+    RELEASE_SAFELY(urlArray);
+    RELEASE_SAFELY(_homeBtn);
+    RELEASE_SAFELY(_mainScrollView);
+    RELEASE_SAFELY(_pageCtrl);
     [super dealloc];
 }
 
@@ -93,123 +99,142 @@
         return;
     }
     
-    MusicListTableViewController* childVC = segue.destinationViewController;
-    childVC.dataArray = [NSMutableArray arrayWithArray:self.dataArray];
+    if ([segue.identifier isEqualToString:@"HomeVCToMusicListTableSegue"])
+    {
+        MusicListTableViewController* childVC = segue.destinationViewController;
+        childVC.dataArray = [NSMutableArray arrayWithArray:self.dataArray];
+        childVC.listFlag = listFlag;
+    }
 }
 
 - (IBAction)homeBtnAction:(UIButton *)sender
 {
-    int flag = sender.tag - 100;
+    int flag = sender.tag % 100;
+    listFlag = flag;
+    int btnType = sender.tag / 100;
+    
+    switch (flag)
+    {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        {
+            // 判断播放列表是否存在缓存
+            NSString* keyURLString = [urlArray objectAtIndex:flag];
+            NSData* cacheData = [cacheDict objectForKey:keyURLString];
+            if (cacheData != nil)
+            {
+                self.dataArray = [QQMusicDataManager handleWithData:cacheData];
+                [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                                          sender:self];
+                return;
+            }
+            
+            NSURL* url = [NSURL URLWithString:keyURLString];
+            
+            LoadingView* loadView = [[[LoadingView alloc] init] autorelease];
+            [self.view addSubview:loadView];
+            [loadView.activityIndicator startAnimating];
+            
+            ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:url];
+            
+            [request setCompletionBlock:^{
+                
+                [loadView.activityIndicator stopAnimating];
+                [loadView removeFromSuperview];
+                
+                [cacheDict setObject:request.responseData forKey:keyURLString];
+                self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
+                if (btnType == 1)
+                {
+                    [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                                              sender:self];
+                }
+                else
+                {
+                    [MyWalkManSoundEngine shareEngine].dataArray = [NSMutableArray arrayWithArray:self.dataArray];
+                    [MyWalkManSoundEngine shareEngine].toPlayingRow = 0;
+                    [[MyWalkManSoundEngine shareEngine] engineStart];
+                }
+            }];
+            [request setFailedBlock:^{
+                
+                [loadView.activityIndicator stopAnimating];
+                [loadView removeFromSuperview];
+                
+                PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"网络君貌似又在玩着抽风，您抽它几下吧。。。" Duration:1.5f] autorelease];
+                [self.view addSubview:tipsView];
+                [tipsView animationBeginAndEnd];
+            }];
+            
+            [request startAsynchronous];
+            break;
+        }
+        case 8:
+        case 9:
+        {
+            NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
+            FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
+            [db open];
+            FMResultSet* result = nil;
+            if (flag == 8)
+                result = [db executeQuery:@"select * from localmusic"];
+            else
+                result = [db executeQuery:@"select * from localstream"];
+            
+            NSMutableArray* localMusicArray = [NSMutableArray array];
+            while ([result next])
+            {
+                @autoreleasepool {
+                    QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
+                    [localMusicArray addObject:info];
+                }
+            }
+            [db close];
+            self.dataArray = localMusicArray;
+            
+            if (btnType == 1)
+            {
+                [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                                          sender:self];
+            }
+            else
+            {
+                [MyWalkManSoundEngine shareEngine].dataArray = [NSMutableArray arrayWithArray:self.dataArray];
+                [MyWalkManSoundEngine shareEngine].toPlayingRow = 0;
+                [[MyWalkManSoundEngine shareEngine] engineStart];
+            }
+            break;
+        }
+        case 10:
+        {
+            [self performSegueWithIdentifier:@"HomeToDownload"
+                                      sender:self];
+            break;
+        }
+        case 11:
+        {
+            [self performSegueWithIdentifier:@"HomeToAbout" sender:self];
+            break;
+        }
+        default:
+            break;
+    }
+
+    /*
     //本地播放直接跳转
     if (flag == 8 || flag == 9)
     {
-        NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-        FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-        [db open];
-        FMResultSet* result = nil;
-        if (flag == 8)
-            result = [db executeQuery:@"select * from localmusic"];
-        else
-            result = [db executeQuery:@"select * from localstream"];
-        
-        NSMutableArray* localMusicArray = [NSMutableArray array];
-        while ([result next])
-        {
-            @autoreleasepool {
-                QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
-                [localMusicArray addObject:info];
-            }
-        }
-        [db close];
-        self.dataArray = localMusicArray;
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
-        return;
-    }
-    
-    NSString* keyURLString = [urlArray objectAtIndex:flag];
-    NSData* cacheData = [cacheDict objectForKey:keyURLString];
-    if (cacheData != nil)
-    {
-        self.dataArray = [QQMusicDataManager handleWithData:cacheData];
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
-                                  sender:self];
-        return;
-    }
-    
-    NSURL* url = [NSURL URLWithString:keyURLString];
-    
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:url];
-    
-    [request setCompletionBlock:^{
-        [cacheDict setObject:request.responseData forKey:keyURLString];
-        self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
-                                  sender:self];
-    }];
-    [request setFailedBlock:^{
-        NSLog(@"%@", [request.error description]);
-    }];
-    
-    [request startAsynchronous];
-}
 
-- (IBAction)homePlayBtnAction:(UIButton *)sender
-{
-    int flag = sender.tag - 100;
-    
-    if (flag == 8 || flag == 9)
-    {
-        NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-        FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-        [db open];
-        FMResultSet* result = nil;
-        if (flag == 8)
-            result = [db executeQuery:@"select * from localmusic"];
-        else
-            result = [db executeQuery:@"select * from localstream"];
-        
-        NSMutableArray* localMusicArray = [NSMutableArray array];
-        while ([result next])
-        {
-            @autoreleasepool {
-                QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
-                [localMusicArray addObject:info];
-            }
-        }
-        [db close];
-        self.dataArray = localMusicArray;
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
         return;
     }
-    
-    NSString* keyURLString = [urlArray objectAtIndex:flag];
-    NSData* cacheData = [cacheDict objectForKey:keyURLString];
-    if (cacheData != nil)
-    {
-        self.dataArray = [QQMusicDataManager handleWithData:cacheData];
-        [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue" sender:self];
-        return;
-    }
-    
-    NSLog(@"%@", [urlArray objectAtIndex:flag]);
-    NSURL* url = [NSURL URLWithString:[urlArray objectAtIndex:flag]];
-    
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:url];
-    
-    [request setCompletionBlock:^{
-        [cacheDict setObject:request.responseData forKey:keyURLString];
-        self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
-        [MyWalkManSoundEngine shareEngine].dataArray = [NSMutableArray arrayWithArray:self.dataArray];
-        [MyWalkManSoundEngine shareEngine].toPlayingRow = 0;
-        [[MyWalkManSoundEngine shareEngine] engineStart];
-    }];
-    [request setFailedBlock:^{
-        NSLog(@"%@", [request.error description]);
-    }];
-    
-    [request startAsynchronous];
+     */
 }
 
 - (IBAction)nowPlayingBtnAction:(UIButton *)sender
@@ -223,4 +248,22 @@
     [self.mainScrollView setContentOffset:CGPointMake(sender.currentPage * 320, 0)
                                  animated:YES];
 }
+
+- (void)downloadStateChanged: (NSNotification* )notification
+{
+    switch ([MyWalkManDownLoadEngine shareEngine].state)
+    {
+        case YSFailed:
+        {
+            PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"下载中的“歌歌”貌似被手雷炸掉了，啦啦啦～～～"
+                                                             Duration:1.5f] autorelease];
+            [self.view addSubview:tipsView];
+            [tipsView animationBeginAndEnd];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 @end

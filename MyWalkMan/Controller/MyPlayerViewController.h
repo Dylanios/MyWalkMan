@@ -18,12 +18,10 @@
     BOOL isExitLrcView;
     NSInteger index;
     CGFloat offset;
-    NSMutableArray* downloadQueue;
     
     UIBackgroundTaskIdentifier bgTaskId;
 }
 
-@property (assign, nonatomic) NSUInteger nowPlaying;
 @property (retain, nonatomic) QQMusicSongInfo* info;
 
 @property (retain, nonatomic) IBOutlet UIView *titleView;

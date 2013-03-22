@@ -10,8 +10,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "ASIHTTPRequest.h"
 #import "QQMusicDataManager.h"
-#import "LoadingView.h"
-#import "PromptView.h"
+#import "MyWalkManDownLoadEngine.h"
 #import "DownloadListViewController.h"
 #import "FMDatabase.h"
 #import <AVFoundation/AVFoundation.h>
@@ -88,6 +87,11 @@
     swipRightToLrc.direction = UISwipeGestureRecognizerDirectionRight;
     [self.lrcBgScrollView addGestureRecognizer:swipRightToLrc];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(downloadStateChanged:)
+                                                 name:YSDownloadStateChangedNotification
+                                               object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"NextSongStart"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -102,9 +106,9 @@
                                                       
                                                       MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
                                                       
-                                                      QQMusicSongInfo* info = [engine.dataArray objectAtIndex:engine.toPlayingRow];
+                                                      self.info = [engine.dataArray objectAtIndex:engine.toPlayingRow];
                                                       
-                                                      [self.albumImageView setImageWithURL:[NSURL URLWithString:info.albumURLStr] placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                                      [self.albumImageView setImageWithURL:[NSURL URLWithString:self.info.albumURLStr] placeholderImage:[UIImage imageNamed:@"playing_album_default.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                                           
                                                           CATransition* animation = [CATransition animation];
                                                           animation.duration = 0.5f;
@@ -119,10 +123,10 @@
                                                       
                                                       [self addReflectionLayerInView:self.albumImageView];
                                                       
-                                                      self.singerNameLabel.text = info.singerName;
-                                                      self.albumNameLabel.text = info.albumName;
-                                                      self.titleLabel.text = info.songName;
-                                                      self.endTimeLabel.text = info.playTimeSwitchedStr;
+                                                      self.singerNameLabel.text = self.info.singerName;
+                                                      self.albumNameLabel.text = self.info.albumName;
+                                                      self.titleLabel.text = self.info.songName;
+                                                      self.endTimeLabel.text = self.info.playTimeSwitchedStr;
                                                   }];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"RefreshCurrentTime" object:nil
@@ -199,7 +203,6 @@
 }
 
 - (void)dealloc {
-    [downloadQueue release];
     [_albumImageView release];
     [_playBtn release];
     [_preBtn release];
@@ -229,7 +232,6 @@
 }
 
 - (void)viewDidUnload {
-    downloadQueue = nil;
     [self setAlbumImageView:nil];
     [self setPlayBtn:nil];
     [self setPreBtn:nil];
@@ -256,15 +258,6 @@
     [self setSelectedLrcLabel:nil];
     [self setLrcMaskImageView:nil];
     [super viewDidUnload];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"PlayerToDownload"])
-    {
-        DownloadListViewController* childVC = segue.destinationViewController;
-        childVC.dataArray = downloadQueue;
-    }
 }
 
 #pragma mark - IBAction Methods
@@ -305,13 +298,15 @@
 
 - (IBAction)preBtnAction:(UIButton *)sender
 {
+//    self.preBtn.enabled = NO;
     offset = 0.0f;
     self.lrcMaskImageView.hidden = YES;
     self.lrcBgScrollView.hidden = YES;
     isExitLrcView = NO;
     isLrcViewShow = NO;
     
-    [[MyWalkManSoundEngine shareEngine] playingSongChange:NO];
+    [[MyWalkManSoundEngine shareEngine] playingSongChangeIsNext:NO];
+    
 }
 
 - (IBAction)nextBtnAction:(UIButton *)sender
@@ -322,7 +317,7 @@
     isExitLrcView = NO;
     isLrcViewShow = NO;
     
-    [[MyWalkManSoundEngine shareEngine] playingSongChange:YES];
+    [[MyWalkManSoundEngine shareEngine] playingSongChangeIsNext:YES];
 }
 
 - (IBAction)playingtimeSliderChanged:(UISlider *)sender
@@ -374,8 +369,6 @@
 {
     MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
     QQMusicSongInfo* nowPlayingInfo = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
-    
-    NSString* resultStr = [NSString calMD5WithName:nowPlayingInfo.songURLStr];
     
     /*
      *  下载触发时，先判断localmusic中是否存在这首歌：
@@ -439,37 +432,25 @@
             return;
         }
     }
-
-    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:nowPlayingInfo.songURLStr]];
-    if (downloadQueue == nil)
+    
+    for (ASIHTTPRequest* request in [MyWalkManDownLoadEngine shareEngine].requestArray)
     {
-        downloadQueue = [NSMutableArray array];
+        if ([request.originalURL.absoluteString isEqualToString:nowPlayingInfo.songURLStr])
+        {
+            PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"这位“歌歌”已经在入宫的队列中了，啦啦啦～～～"
+                                                             Duration:1.5f] autorelease];
+            [self.view addSubview:tipsView];
+            [tipsView animationBeginAndEnd];
+            [self swipDown:nil];
+            return;
+        }
     }
-    [downloadQueue addObject:request];
-    [request setCompletionBlock:^{
-        
-        [downloadQueue removeObjectAtIndex:0];
-        
-        SystemSoundID soundID;
-        NSURL* soundURL = [[NSBundle mainBundle] URLForResource:@"success" withExtension:@"caf"];
-        AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
-        AudioServicesPlaySystemSound(soundID);
-        
-        NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        path = [path stringByAppendingFormat:@"/com.youngsing.cachemusic/%@.mp3", resultStr];
-        NSLog(@"%@", path);
-        [request.responseData writeToFile:path atomically:YES];
-        
-        NSMutableDictionary* dbDict = [NSMutableDictionary dictionaryWithDictionary:nowPlayingInfo.infoDict];
-        [dbDict setValue:resultStr forKey:@"md5"];
-        [dbDict setValue:path forKey:@"path"];
-        [db executeUpdate:InsertIntoLocalMusicDatebase withParameterDictionary:dbDict];
-        [db close];
-    }];
-    [request setFailedBlock:^{
-        NSLog(@"%s 下载出错", __FUNCTION__);
-    }];
-    [request startAsynchronous];
+    
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:nowPlayingInfo.songURLStr]];
+    YSLog(@"%@", self.info.songName);
+    request.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:self.info, @"info", nil];
+    [[MyWalkManDownLoadEngine shareEngine] addRequest:request];
+    
     [self swipDown:nil];
     [self performSegueWithIdentifier:@"PlayerToDownload" sender:self];
 }
@@ -559,12 +540,17 @@
         return;
     }
     NSLog(@"%@", info.songLrcURLStr);
-    ASIHTTPRequest* requset = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:info.songLrcURLStr]];
-    [requset setCompletionBlock:^{
-        [QQMusicDataManager handleLrcWithData:requset.responseData];
+    ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:info.songLrcURLStr]];
+    [request setCompletionBlock:^{
+        [QQMusicDataManager handleLrcWithData:request.responseData];
         [self showLrcView];
     }];
-    [requset startAsynchronous];
+    [request setFailedBlock:^{
+        PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"网络君貌似又在玩着抽风，您抽它几下吧。。。" Duration:1.5f] autorelease];
+        [self.view addSubview:tipsView];
+        [tipsView animationBeginAndEnd];
+    }];
+    [request startAsynchronous];
 }
 
 - (void)swipRightToLrc: (UIGestureRecognizer* )gesture
@@ -736,6 +722,23 @@
     reflectionLayer.sublayerTransform = reflectionLayer.transform;
     [[view.layer.sublayers objectAtIndex:0] removeFromSuperlayer];
     [view.layer addSublayer:reflectionLayer];
+}
+
+- (void)downloadStateChanged: (NSNotification* )notification
+{
+    switch ([MyWalkManDownLoadEngine shareEngine].state)
+    {
+        case YSFailed:
+        {
+            PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"下载中的“歌歌”貌似被手雷炸掉了，啦啦啦～～～"
+                                                             Duration:1.5f] autorelease];
+            [self.view addSubview:tipsView];
+            [tipsView animationBeginAndEnd];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 @end

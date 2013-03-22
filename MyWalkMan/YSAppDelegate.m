@@ -95,12 +95,6 @@
         NSLog(@"数据库已存在");
     }
     
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setActive:YES error:nil];
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    
     /*
     NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];

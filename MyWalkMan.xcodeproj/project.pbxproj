@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		271AED7016FC550E0095FFB3 /* HomeToAboutSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */; };
+		271AED7416FC56EA0095FFB3 /* RegardToViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271AED7316FC56EA0095FFB3 /* RegardToViewController.m */; };
 		271D2CC716F232F6008EE91B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271D2CC616F232F6008EE91B /* UIKit.framework */; };
 		271D2CC916F232F6008EE91B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271D2CC816F232F6008EE91B /* Foundation.framework */; };
 		271D2CCB16F232F6008EE91B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271D2CCA16F232F6008EE91B /* CoreGraphics.framework */; };
@@ -53,6 +55,7 @@
 		27276CE116F2B3EE008E635B /* MyWalkManSoundEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 27276CE016F2B3EE008E635B /* MyWalkManSoundEngine.m */; };
 		27276CF116F2B764008E635B /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27276CEA16F2B72B008E635B /* libSDWebImage.a */; };
 		27276CF316F2B76D008E635B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27276CF216F2B76D008E635B /* ImageIO.framework */; };
+		2727867216FBFA7E009CE483 /* MyWalkManDownLoadEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2727867116FBFA7E009CE483 /* MyWalkManDownLoadEngine.m */; };
 		272E809616F324C600DBF970 /* audio_cover_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 272E807B16F324C600DBF970 /* audio_cover_bg.png */; };
 		272E809716F324C600DBF970 /* audio_cover_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 272E807C16F324C600DBF970 /* audio_cover_bg@2x.png */; };
 		272E809816F324C600DBF970 /* playing_album_default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 272E807D16F324C600DBF970 /* playing_album_default.jpg */; };
@@ -1145,6 +1148,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		271AED6E16FC550E0095FFB3 /* HomeToAboutSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeToAboutSegue.h; sourceTree = "<group>"; };
+		271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeToAboutSegue.m; sourceTree = "<group>"; };
+		271AED7216FC56E90095FFB3 /* RegardToViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegardToViewController.h; sourceTree = "<group>"; };
+		271AED7316FC56EA0095FFB3 /* RegardToViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegardToViewController.m; sourceTree = "<group>"; };
 		271D2CC316F232F6008EE91B /* MyWalkMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWalkMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		271D2CC616F232F6008EE91B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		271D2CC816F232F6008EE91B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1227,6 +1234,8 @@
 		27276CE016F2B3EE008E635B /* MyWalkManSoundEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalkManSoundEngine.m; sourceTree = "<group>"; };
 		27276CE316F2B72B008E635B /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDWebImage.xcodeproj; path = SDWebImage/SDWebImage.xcodeproj; sourceTree = "<group>"; };
 		27276CF216F2B76D008E635B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		2727867016FBFA7E009CE483 /* MyWalkManDownLoadEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalkManDownLoadEngine.h; sourceTree = "<group>"; };
+		2727867116FBFA7E009CE483 /* MyWalkManDownLoadEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalkManDownLoadEngine.m; sourceTree = "<group>"; };
 		272E807B16F324C600DBF970 /* audio_cover_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_cover_bg.png; sourceTree = "<group>"; };
 		272E807C16F324C600DBF970 /* audio_cover_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio_cover_bg@2x.png"; sourceTree = "<group>"; };
 		272E807D16F324C600DBF970 /* playing_album_default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = playing_album_default.jpg; sourceTree = "<group>"; };
@@ -2410,6 +2419,10 @@
 				272E80EB16F342C300DBF970 /* MyPlayerViewController.m */,
 				27CF599316F8359E00D84FFA /* DownloadListViewController.h */,
 				27CF599416F8359E00D84FFA /* DownloadListViewController.m */,
+				271AED7216FC56E90095FFB3 /* RegardToViewController.h */,
+				271AED7316FC56EA0095FFB3 /* RegardToViewController.m */,
+				271AED6E16FC550E0095FFB3 /* HomeToAboutSegue.h */,
+				271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */,
 			);
 			name = Controller;
 			path = MyWalkMan/Controller;
@@ -3637,6 +3650,8 @@
 			children = (
 				27276CDF16F2B3EE008E635B /* MyWalkManSoundEngine.h */,
 				27276CE016F2B3EE008E635B /* MyWalkManSoundEngine.m */,
+				2727867016FBFA7E009CE483 /* MyWalkManDownLoadEngine.h */,
+				2727867116FBFA7E009CE483 /* MyWalkManDownLoadEngine.m */,
 			);
 			path = Singleton;
 			sourceTree = "<group>";
@@ -4862,6 +4877,9 @@
 				2731D26316FACB8F00C4B5C2 /* QQMusicDataManager.m in Sources */,
 				2731D26416FACB8F00C4B5C2 /* YSLrcParser.m in Sources */,
 				2731D26A16FACC9700C4B5C2 /* NSString+MD5.m in Sources */,
+				2727867216FBFA7E009CE483 /* MyWalkManDownLoadEngine.m in Sources */,
+				271AED7016FC550E0095FFB3 /* HomeToAboutSegue.m in Sources */,
+				271AED7416FC56EA0095FFB3 /* RegardToViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

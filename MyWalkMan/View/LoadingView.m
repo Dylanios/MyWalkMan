@@ -26,7 +26,7 @@
         backView.layer.shadowRadius = 10;
         [self addSubview:backView];
         
-        backView.backgroundColor = [UIColor  colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.6];
+        backView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.6];
         
         self.activityIndicator = [[[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 130, 130)]autorelease];
         self.activityIndicator.center = CGPointMake(66, 60);

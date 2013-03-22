@@ -13,6 +13,19 @@
     #import <Foundation/Foundation.h>
     #import <QuartzCore/QuartzCore.h>
 
+    #import "LoadingView.h"
+    #import "PromptView.h"
+
+    #define RELEASE_SAFELY(__POINTER) { [__POINTER release]; __POINTER = nil; }
+    #define REMOVE_SAFELY(__POINTER) { [__POINTER removeFromSuperview]; [__POINTER release]; __POINTER = nil; }
+    #define INVALIDATE_TIMER(__TIMER) { [__TIMER invalidate];[__TIMER release]; __TIMER = nil; }
+
+    #if DEBUG
+    #define YSLog(xx, ...)  NSLog(@"%s(%d): " xx, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+    #else
+    #define YSLog(xx, ...)  ((void)0)
+    #endif
+
     #define FontOFHelvetica16 [UIFont fontWithName:@"Helvetica" size:16]
     #define InsertIntoLocalMusicDatebase @"insert into localmusic (albumIdStr, albumLinkStr, albumName, albumURLStr, idStr, matchStr, md5, path, playTimeStr, playTimeSwitchedStr, singerIdStr, singerName, songLrcURLStr, songName, songURLStr, typeStr, urlStr) values(:albumIdStr,:albumLinkStr, :albumName, :albumURLStr, :idStr, :matchStr, :md5, :path, :playTimeStr, :playTimeSwitchedStr, :singerIdStr, :singerName, :songLrcURLStr, :songName, :songURLStr, :typeStr, :urlStr)"
     #define InsertIntoLocalStreamDatebase @"insert into localstream (albumIdStr, albumLinkStr, albumName, albumURLStr, idStr, matchStr, md5, path, playTimeStr, playTimeSwitchedStr, singerIdStr, singerName, songLrcURLStr, songName, songURLStr, typeStr, urlStr) values(:albumIdStr,:albumLinkStr, :albumName, :albumURLStr, :idStr, :matchStr, :md5, :path, :playTimeStr, :playTimeSwitchedStr, :singerIdStr, :singerName, :songLrcURLStr, :songName, :songURLStr, :typeStr, :urlStr)"

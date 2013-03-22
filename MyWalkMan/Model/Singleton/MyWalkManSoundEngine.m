@@ -17,9 +17,9 @@ static MyWalkManSoundEngine* Engine = nil;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [Engine release], Engine = nil;
-    [_streamerEngine release], _streamerEngine = nil;
-    [_dataArray release], _dataArray = nil;
+    RELEASE_SAFELY(Engine);
+    RELEASE_SAFELY(_streamerEngine);
+    RELEASE_SAFELY(_dataArray);
     [super dealloc];
 }
 
@@ -67,12 +67,17 @@ static MyWalkManSoundEngine* Engine = nil;
     }
     else
     {
-        NSLog(@"%s 本地播放器自动切换下一首时出错", __FUNCTION__);
+        YSLog(@"本地播放器自动切换下一首时出错");
     }
 }
 
 - (void)engineStart
 {
+    if (!self.dataArray.count)
+    {
+        return;
+    }
+    
     QQMusicSongInfo* info = [self.dataArray objectAtIndex:self.toPlayingRow];
 
     if (self.nowPlayingSongId == info.idInt)
@@ -90,49 +95,48 @@ static MyWalkManSoundEngine* Engine = nil;
     FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
     if (![db open])
     {
-        NSLog(@"db open error");
-    }
-    FMResultSet* resultFMSetInMusic = [db executeQuery:@"select * from localmusic where idStr = ?", info.idStr];
-    if (resultFMSetInMusic.next)
-    {
-        QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFMSetInMusic] autorelease];
-        [self.dataArray replaceObjectAtIndex:self.toPlayingRow withObject:newInfo];
-        info = [self.dataArray objectAtIndex:self.toPlayingRow];
-        [MyWalkManSoundEngine shareEngine].isLocale = YES;
+        YSLog(@"db open error");
     }
     else
     {
-        FMResultSet* resultFmSetInStream = [db executeQuery:@"select * from localstream where idStr = ?", info.idStr];
-        if (resultFmSetInStream.next)
+        FMResultSet* resultFMSetInMusic = [db executeQuery:@"select * from localmusic where idStr = ?", info.idStr];
+        if (resultFMSetInMusic.next)
         {
-            QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFmSetInStream] autorelease];
+            QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFMSetInMusic] autorelease];
             [self.dataArray replaceObjectAtIndex:self.toPlayingRow withObject:newInfo];
             info = [self.dataArray objectAtIndex:self.toPlayingRow];
             [MyWalkManSoundEngine shareEngine].isLocale = YES;
         }
         else
-            [MyWalkManSoundEngine shareEngine].isLocale = NO;
+        {
+            FMResultSet* resultFmSetInStream = [db executeQuery:@"select * from localstream where idStr = ?", info.idStr];
+            if (resultFmSetInStream.next)
+            {
+                QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFmSetInStream] autorelease];
+                [self.dataArray replaceObjectAtIndex:self.toPlayingRow withObject:newInfo];
+                info = [self.dataArray objectAtIndex:self.toPlayingRow];
+                [MyWalkManSoundEngine shareEngine].isLocale = YES;
+            }
+            else
+                [MyWalkManSoundEngine shareEngine].isLocale = NO;
+        }
     }
     
     [db close];
     
     if (self.isLocale)
     {
-        NSLog(@"%s %@", __func__, info.path);
+        YSLog(@"%@", info.path);
         NSError* error = nil;
         self.avAudioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:info.path]
                                                                      error:&error] autorelease];
         self.avAudioPlayer.delegate = self;
         if (error)
         {
-            NSLog(@"%s %@", __func__, [error description]);
+            YSLog(@"%@", [error description]);
         }
         [self.avAudioPlayer prepareToPlay];
         [self.avAudioPlayer play];
-        
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-        [session setActive:YES error:nil];
     }
     else
     {
@@ -147,7 +151,7 @@ static MyWalkManSoundEngine* Engine = nil;
         }
         else
         {
-            NSLog(@"文件创建失败 %s", __func__);
+            YSLog(@"文件创建失败");
         }
         
         self.streamerEngine = [[[AudioStreamer alloc] initWithURL:[NSURL URLWithString:info.songURLStr]] autorelease];
@@ -171,8 +175,7 @@ static MyWalkManSoundEngine* Engine = nil;
 
 - (void)destroyStreamerEngine
 {
-    [self.currentTimerProgress invalidate];
-    self.currentTimerProgress = nil;
+    INVALIDATE_TIMER(_currentTimerProgress);
     self.nowPlayingSongId = -1;
     self.nowPlayingRow = -1;    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -180,30 +183,28 @@ static MyWalkManSoundEngine* Engine = nil;
     if (self.isLocale)
     {
         [self.avAudioPlayer stop];
-        [_avAudioPlayer release];
-        _avAudioPlayer = nil;
+        RELEASE_SAFELY(_avAudioPlayer);
     }
     else
     {
         [self.streamerEngine stop];
-        [_streamerEngine release];
-        _streamerEngine = nil;
+        RELEASE_SAFELY(_streamerEngine);
     }
 }
 
 - (void)playingStateChanged: (NSNotification* )note
 {
-    NSLog(@"self.streamerEngine.state:::%d", self.streamerEngine.state);
+    YSLog(@"self.streamerEngine.state:::%d", self.streamerEngine.state);
     switch (self.streamerEngine.state)
     {
         case AS_STOPPING:
         {
-            NSLog(@"stopping huadong");
+            YSLog(@"stopping huadong");
             break;
         }
         case AS_STOPPED:
         {
-            NSLog(@"self.streamerEngine.stopReason：：：：%d", self.streamerEngine.stopReason);
+            YSLog(@"self.streamerEngine.stopReason：：：：%d", self.streamerEngine.stopReason);
             self.toPlayingRow = self.nowPlayingRow + 1;
             if (self.toPlayingRow >= self.dataArray.count)
                 self.toPlayingRow = 0;
@@ -216,7 +217,7 @@ static MyWalkManSoundEngine* Engine = nil;
                 FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
                 if (![db open])
                 {
-                    NSLog(@"db open error %s", __func__);
+                    YSLog(@"db open error");
                 }
                 QQMusicSongInfo* info = [self.dataArray objectAtIndex:self.nowPlayingRow];
                 NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:info.infoDict];
@@ -236,7 +237,7 @@ static MyWalkManSoundEngine* Engine = nil;
     }
 }
 
-- (void)playingSongChange: (BOOL)isNext
+- (void)playingSongChangeIsNext: (BOOL)isNext
 {
     if (!isNext)
     {
@@ -299,7 +300,7 @@ static MyWalkManSoundEngine* Engine = nil;
 - (void)Tryagain: (NSNotificationCenter *)note
 {
     static NSInteger repeatTimes = 0;
-    NSLog(@"repeatTimes::::%d", repeatTimes);
+    YSLog(@"repeatTimes::::%d", repeatTimes);
     if (repeatTimes == 3)
     {
         repeatTimes = 0;

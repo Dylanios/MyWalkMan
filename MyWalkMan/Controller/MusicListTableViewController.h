@@ -11,6 +11,7 @@
 @interface MusicListTableViewController : UITableViewController
 
 @property (nonatomic, retain) NSMutableArray* dataArray;
+@property (nonatomic, assign) NSInteger listFlag;
 
 - (IBAction)dismissBarBtnAction:(id)sender;
 

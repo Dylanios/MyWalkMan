@@ -104,6 +104,138 @@
             </objects>
             <point key="canvasLocation" x="937" y="50"/>
         </scene>
+        <!--Regard To View Controller-->
+        <scene sceneID="ZtY-ch-FPo">
+            <objects>
+                <viewController id="5z9-JU-lHb" customClass="RegardToViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="c0u-7D-9GG">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r9o-H5-BEE">
+                                <rect key="frame" x="124" y="331" width="73" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="affirmBtnAction:" destination="5z9-JU-lHb" eventType="touchUpInside" id="MsJ-sE-QiG"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" id="yQs-yQ-H2R">
+                                <rect key="frame" x="0.0" y="102" width="320" height="207"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="本程序中的图片，音乐等资源均来源于互联网">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=",">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="仅供测试网络和学习交流之用">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=",">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="请勿用作商业用途">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=",">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="否则后果自负。 ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="如果在线音乐播放不了，请尝试将">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="DNS">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="设置为">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="114.114.114.114">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="（或">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="8.8.8.8">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="）">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="affirmBtn" destination="r9o-H5-BEE" id="Px3-8u-JIs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="36G-QW-rWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="979" y="631"/>
+        </scene>
         <!--My Player View Controller-->
         <scene sceneID="rXU-I7-Pv8">
             <objects>
@@ -552,7 +684,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </progressView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yAl-TJ-WrF">
-                                            <rect key="frame" x="264" y="61" width="36" height="18"/>
+                                            <rect key="frame" x="259" y="61" width="56" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -588,7 +720,7 @@
                                                 <action selector="pauseBtnAction:" destination="9aj-bi-G1e" eventType="touchUpInside" id="Tje-sr-siw"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="quP-mh-X7z">
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="quP-mh-X7z">
                                             <rect key="frame" x="271" y="10" width="44" height="44"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -772,7 +904,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xca-Nm-blH">
+                                            <button opaque="NO" tag="200" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xca-Nm-blH">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -784,7 +916,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="t9X-b4-QCG"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="Onc-BR-t9Z"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -821,7 +953,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xv0-7h-Bgj">
+                                            <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xv0-7h-Bgj">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -833,7 +965,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="sus-Za-AkB"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="NSH-59-Pnv"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -870,7 +1002,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRc-VD-BDq">
+                                            <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRc-VD-BDq">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -882,7 +1014,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="XeX-hf-GDS"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="coB-t1-z6X"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -919,7 +1051,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="S6Q-BL-Iui">
+                                            <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="S6Q-BL-Iui">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -931,7 +1063,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="0vQ-nH-aeT"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="tjn-ea-gti"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -972,7 +1104,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvP-Ei-bQJ">
+                                            <button opaque="NO" tag="204" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BvP-Ei-bQJ">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -984,7 +1116,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="OzF-Ou-Dgj"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="d9v-wN-pS0"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1021,7 +1153,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="105" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IT1-9n-HNW">
+                                            <button opaque="NO" tag="205" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IT1-9n-HNW">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1033,7 +1165,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="7mv-M5-K0x"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="ZJ5-p3-cTY"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1070,7 +1202,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rNG-uD-kX8">
+                                            <button opaque="NO" tag="206" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rNG-uD-kX8">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1082,7 +1214,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="cbj-jw-Siu"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="wGD-WX-I2i"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1119,7 +1251,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="107" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qCd-zh-0Ti">
+                                            <button opaque="NO" tag="207" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qCd-zh-0Ti">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1131,7 +1263,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="mvj-zt-yx2"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="56p-JW-URX"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1160,7 +1292,7 @@
                                                 <rect key="frame" x="0.0" y="90" width="154" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                             </imageView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="下载歌曲" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y3D-1J-Je1">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="本地歌曲" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y3D-1J-Je1">
                                                 <rect key="frame" x="10" y="110" width="60" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1168,7 +1300,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="108" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9md-wU-uA6">
+                                            <button opaque="NO" tag="208" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9md-wU-uA6">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1180,7 +1312,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="rBe-bK-1UC"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="giJ-fW-SmN"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1217,7 +1349,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" tag="109" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g2a-YF-OkZ">
+                                            <button opaque="NO" tag="209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g2a-YF-OkZ">
                                                 <rect key="frame" x="104" y="90" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1229,9 +1361,77 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="homePlayBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="dQc-F8-tHr"/>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="821-HV-cyJ"/>
                                                 </connections>
                                             </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="Zo0-qO-M48">
+                                        <rect key="frame" x="324" y="292" width="154" height="140"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="110" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="aVM-gF-j2f">
+                                                <rect key="frame" x="0.0" y="0.0" width="154" height="140"/>
+                                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="school.jpg">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="dLP-5b-8Sa"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="channel_song_list_mask.png" id="INz-99-WIs">
+                                                <rect key="frame" x="0.0" y="90" width="154" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="下载队列" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E7N-aX-Svu">
+                                                <rect key="frame" x="10" y="110" width="60" height="15"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="7yu-uE-R0t">
+                                        <rect key="frame" x="482" y="292" width="154" height="140"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hQi-kY-KvX">
+                                                <rect key="frame" x="0.0" y="0.0" width="154" height="140"/>
+                                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="3.jpg">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="homeBtnAction:" destination="Tbx-7J-ELO" eventType="touchUpInside" id="tiK-7b-0nI"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="channel_song_list_mask.png" id="oRj-8I-9fv">
+                                                <rect key="frame" x="0.0" y="90" width="154" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="关于" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ICg-GU-KuQ">
+                                                <rect key="frame" x="10" y="110" width="60" height="15"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
@@ -1294,6 +1494,8 @@
                         <outlet property="pageCtrl" destination="z8h-Kc-5EB" id="RNc-D6-kFR"/>
                         <segue destination="YeL-oO-fS1" kind="push" identifier="HomeVCToMusicListTableSegue" id="WKL-O3-bcc"/>
                         <segue destination="bAi-uh-ax3" kind="push" identifier="HomeVCToPlayer" id="3sZ-fe-0uH"/>
+                        <segue destination="5z9-JU-lHb" kind="custom" identifier="HomeToAbout" customClass="HomeToAboutSegue" id="LgB-hi-IP8"/>
+                        <segue destination="JzV-He-9pJ" kind="modal" identifier="HomeToDownload" modalTransitionStyle="flipHorizontal" id="gO3-iT-owx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S6i-u2-jtp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1350,6 +1552,7 @@
         <image name="playing_single_btn.png" width="40" height="40"/>
         <image name="playing_single_btn_h.png" width="40" height="40"/>
         <image name="quxiao.png" width="20" height="20"/>
+        <image name="school.jpg" width="308" height="254"/>
         <image name="soft.jpg" width="483" height="400"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -1358,6 +1561,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="gO3-iT-owx"/>
         <segue reference="3sZ-fe-0uH"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ASIProgressDelegate.h"
 
-@interface DownloadListViewController : UITableViewController
+@interface DownloadListViewController : UITableViewController<ASIProgressDelegate>
 
-@property (nonatomic, retain) NSMutableArray* dataArray;
-@property (nonatomic, retain) NSMutableArray* downloadQueue;
+@property (nonatomic, retain) NSTimer* updateProgressTimer;
 
 - (IBAction)dismissBtnAction:(UIButton *)sender;
 @end

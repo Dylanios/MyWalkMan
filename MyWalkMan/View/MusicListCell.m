@@ -27,10 +27,10 @@
 }
 
 - (void)dealloc {
-    [_albumImageView release];
-    [_songNameLabel release];
-    [_singerNameLabel release];
-    [_playTimeLabel release];
+    RELEASE_SAFELY(_albumImageView);
+    RELEASE_SAFELY(_songNameLabel);
+    RELEASE_SAFELY(_singerNameLabel);
+    RELEASE_SAFELY(_playTimeLabel);
     [super dealloc];
 }
 @end

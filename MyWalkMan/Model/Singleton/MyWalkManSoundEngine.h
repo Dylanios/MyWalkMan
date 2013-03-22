@@ -36,7 +36,8 @@
 
 + (MyWalkManSoundEngine* )shareEngine;
 - (void)engineStart;
-- (void)playingSongChange: (BOOL)isNext;
+- (void)destroyStreamerEngine;
+- (void)playingSongChangeIsNext: (BOOL)isNext;
 - (double)getProgress;
 - (NSString* )currentTime;
 

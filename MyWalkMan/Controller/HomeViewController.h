@@ -13,6 +13,7 @@
     NSArray* urlArray;
     BOOL isNowPlayingBtnAction;
     NSMutableDictionary* cacheDict;
+    NSInteger listFlag;
 }
 @property (nonatomic, retain) NSArray* dataArray;
 @property (retain, nonatomic) IBOutlet UIButton *homeBtn;
@@ -21,7 +22,6 @@
 
 
 - (IBAction)homeBtnAction:(UIButton *)sender;
-- (IBAction)homePlayBtnAction:(UIButton *)sender;
 - (IBAction)nowPlayingBtnAction:(UIButton *)sender;
 - (IBAction)pageCtrlValueChangedAction:(UIPageControl *)sender;
 
