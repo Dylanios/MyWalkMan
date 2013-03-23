@@ -50,6 +50,6 @@
 }
 - (IBAction)affirmBtnAction:(UIButton *)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self performSegueWithIdentifier:@"AboutToHome" sender:self];
 }
 @end
