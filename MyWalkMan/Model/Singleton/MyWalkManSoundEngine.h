@@ -12,11 +12,20 @@
 #import "YSLrcParser.h"
 #import <AVFoundation/AVFoundation.h>
 
+typedef enum
+{
+    YS_Audio_Data_Not_Found = 0,
+}YSPlayingState;
+
+extern NSString* const YSWalkManPlayStateNotification;
+
 @interface MyWalkManSoundEngine : NSObject <AVAudioPlayerDelegate>
 
 @property (nonatomic, assign) BOOL isLocale;
 @property (nonatomic, retain) AVAudioPlayer* avAudioPlayer;
 @property (nonatomic, retain) AudioStreamer* streamerEngine;
+
+@property (nonatomic, readonly) YSPlayingState playingState;
 
 @property (nonatomic, retain) NSMutableArray* dataArray;
 
@@ -30,9 +39,11 @@
 
 @property (nonatomic, retain) NSString* cacheStreamLocation;
 
-@property (nonatomic, retain) NSMutableDictionary* cacheLrcDict;
+//@property (nonatomic, retain) NSMutableDictionary* cacheLrcDict;
 @property (nonatomic, retain) YSLrc* lrc;
 @property (nonatomic, assign) BOOL isLrcExit;
+
+//@property (nonatomic, retain) NSMutableData* metaData;
 
 + (MyWalkManSoundEngine* )shareEngine;
 - (void)engineStart;

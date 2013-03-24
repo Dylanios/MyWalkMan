@@ -10,13 +10,9 @@
 #import "MusicListCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "QQMusicSongInfo.h"
-#import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "FMDatabase.h"
-#import <CommonCrypto/CommonDigest.h>
-#import "FMDatabaseAdditions.h"
-#import "MyWalkManDownLoadEngine.h"
+
 @interface MusicListTableViewController ()
 
 @end
@@ -75,7 +71,6 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    YSLog(@"%d", self.listFlag);
     if (self.listFlag == 8 || self.listFlag == 9)
         return YES;
     else
@@ -84,47 +79,26 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open])
+    QQMusicSongInfo* info = [self.dataArray objectAtIndex:indexPath.row];
+    
+    if ([MyWalkManSoundEngine shareEngine].nowPlayingRow == indexPath.row)
     {
-        NSLog(@"db open error: %s", __func__);
-    }
-    else
-    {
-        QQMusicSongInfo* info = [self.dataArray objectAtIndex:indexPath.row];
-        NSString* toDeleteFilePath = nil;
-        
-        if ([MyWalkManSoundEngine shareEngine].isPlaying)
+        if ([MyWalkManSoundEngine shareEngine].dataArray.count == 1)
         {
-            if ([MyWalkManSoundEngine shareEngine].dataArray.count == 1)
-            {
-                [[MyWalkManSoundEngine shareEngine] destroyStreamerEngine];
-            }
-            else
-            {
-                [[MyWalkManSoundEngine shareEngine] playingSongChangeIsNext:YES];
-            }
-        }
-        
-        if (self.listFlag == 8)
-        {
-            toDeleteFilePath = [db stringForQuery:@"select path from localmusic where idStr = ?", info.idStr];
-            [db executeUpdate:@"delete from localmusic where idStr = ?", info.idStr];
+            [[MyWalkManSoundEngine shareEngine] destroyStreamerEngine];
         }
         else
         {
-            toDeleteFilePath = [db stringForQuery:@"select path from localstream where idStr = ?", info.idStr];
-            [db executeUpdate:@"delete from localstream where idStr = ?", info.idStr];
+            [[MyWalkManSoundEngine shareEngine] playingSongChangeIsNext:YES];
         }
-        [db close];
-        [[NSFileManager defaultManager] removeItemAtPath:toDeleteFilePath error:nil];
-        [self.dataArray removeObjectAtIndex:indexPath.row];
-        [MyWalkManSoundEngine shareEngine].dataArray = self.dataArray;
-        --[MyWalkManSoundEngine shareEngine].nowPlayingRow;
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+    
+    [[YSDatabaseManager shareDatabaseManager] deleteWithMusicInfo:info Param:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:info.musicPath error:nil];
+    [self.dataArray removeObjectAtIndex:indexPath.row];
+    [MyWalkManSoundEngine shareEngine].dataArray = self.dataArray;
+    --[MyWalkManSoundEngine shareEngine].nowPlayingRow;
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view delegate
@@ -151,31 +125,11 @@
         {
             if (self.listFlag == 8)
             {
-                NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-                FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-                if (![db open])
-                {
-                    YSLog(@"db open error");
-                }
-                else
-                {
-                    FMResultSet* result = [db executeQuery:@"select * from localmusic"];
-                    
-                    NSMutableArray* localMusicArray = [NSMutableArray array];
-                    while ([result next])
-                    {
-                        @autoreleasepool {
-                            QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
-                            [localMusicArray addObject:info];
-                        }
-                    }
-                    [db close];
-                    self.dataArray = localMusicArray;
-                    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
-                                  withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-                }
+                NSDictionary* paramDict = [NSDictionary dictionaryWithObjectsAndKeys:@"1", @"isDown", nil];
+                self.dataArray = [[YSDatabaseManager shareDatabaseManager] localCacheInfoInDatabase:paramDict];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             }
             break;
         }

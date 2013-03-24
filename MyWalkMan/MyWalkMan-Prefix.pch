@@ -13,6 +13,10 @@
     #import <Foundation/Foundation.h>
     #import <QuartzCore/QuartzCore.h>
 
+    #import "MyWalkManSoundEngine.h"
+    #import "MyWalkManDownLoadEngine.h"
+    #import "YSDatabaseManager.h"
+
     #import "LoadingView.h"
     #import "PromptView.h"
 

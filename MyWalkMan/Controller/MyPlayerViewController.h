@@ -24,8 +24,12 @@
 
 @property (retain, nonatomic) QQMusicSongInfo* info;
 
+@property (retain, nonatomic) NSString* segueParent;
+
+@property (retain, nonatomic) IBOutlet UIButton *popBackBtn;
 @property (retain, nonatomic) IBOutlet UIView *titleView;
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
+@property (retain, nonatomic) IBOutlet UIButton *musicListBtn;
 
 @property (retain, nonatomic) IBOutlet UIView *imageBgView;
 @property (retain, nonatomic) IBOutlet UIImageView *albumImageView;

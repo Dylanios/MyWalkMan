@@ -7,10 +7,10 @@
 //
 
 #import "MyWalkManSoundEngine.h"
-#import "FMDatabase.h"
 #import "NSString+MD5.h"
 
 static MyWalkManSoundEngine* Engine = nil;
+NSString* const YSWalkManPlayStateNotification = @"YSWalkManPlayStateNotification";
 
 @implementation MyWalkManSoundEngine
 
@@ -18,8 +18,11 @@ static MyWalkManSoundEngine* Engine = nil;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     RELEASE_SAFELY(Engine);
+    RELEASE_SAFELY(_avAudioPlayer)
     RELEASE_SAFELY(_streamerEngine);
     RELEASE_SAFELY(_dataArray);
+    RELEASE_SAFELY(_cacheStreamLocation);
+    RELEASE_SAFELY(_lrc);
     [super dealloc];
 }
 
@@ -39,16 +42,6 @@ static MyWalkManSoundEngine* Engine = nil;
 {
     if (self = [super init])
     {
-        NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        path = [path stringByAppendingPathComponent:@"cacheLrc"];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path])
-        {
-            self.cacheLrcDict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-        }
-        else
-        {
-            self.cacheLrcDict = [NSMutableDictionary dictionary];
-        }
     }
     return self;
 }
@@ -90,45 +83,21 @@ static MyWalkManSoundEngine* Engine = nil;
         [self destroyStreamerEngine];
     }
     //判断将要播放的歌曲是否有本地缓存
-    NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open])
+    YSLog(@"%d", [[YSDatabaseManager shareDatabaseManager] isInDatabase:info]);
+    if ([[YSDatabaseManager shareDatabaseManager] isInDatabase:info])
     {
-        YSLog(@"db open error");
+        [MyWalkManSoundEngine shareEngine].isLocale = YES;
     }
     else
     {
-        FMResultSet* resultFMSetInMusic = [db executeQuery:@"select * from localmusic where idStr = ?", info.idStr];
-        if (resultFMSetInMusic.next)
-        {
-            QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFMSetInMusic] autorelease];
-            [self.dataArray replaceObjectAtIndex:self.toPlayingRow withObject:newInfo];
-            info = [self.dataArray objectAtIndex:self.toPlayingRow];
-            [MyWalkManSoundEngine shareEngine].isLocale = YES;
-        }
-        else
-        {
-            FMResultSet* resultFmSetInStream = [db executeQuery:@"select * from localstream where idStr = ?", info.idStr];
-            if (resultFmSetInStream.next)
-            {
-                QQMusicSongInfo* newInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultFmSetInStream] autorelease];
-                [self.dataArray replaceObjectAtIndex:self.toPlayingRow withObject:newInfo];
-                info = [self.dataArray objectAtIndex:self.toPlayingRow];
-                [MyWalkManSoundEngine shareEngine].isLocale = YES;
-            }
-            else
-                [MyWalkManSoundEngine shareEngine].isLocale = NO;
-        }
+        [MyWalkManSoundEngine shareEngine].isLocale = NO;
     }
-    
-    [db close];
-    
+
     if (self.isLocale)
     {
-        YSLog(@"%@", info.path);
+        YSLog(@"%@", info.musicPath);
         NSError* error = nil;
-        self.avAudioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:info.path]
+        self.avAudioPlayer = [[[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:info.musicPath]
                                                                      error:&error] autorelease];
         self.avAudioPlayer.delegate = self;
         if (error)
@@ -140,19 +109,10 @@ static MyWalkManSoundEngine* Engine = nil;
     }
     else
     {
-        NSString* resulstMd5 = [NSString calMD5WithName:info.songURLStr];
-        NSString* filePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString* musicFilePath = [filePath stringByAppendingFormat:@"/com.youngsing.cachestream/%@.mp3", resulstMd5];
-        NSString* docFilePath = [filePath stringByAppendingString:@"/com.youngsing.cachestream"];
-        [[NSFileManager defaultManager] createDirectoryAtPath:docFilePath withIntermediateDirectories:YES attributes:nil error:nil];
-        if ([[NSFileManager defaultManager] createFileAtPath:musicFilePath contents:[NSData data] attributes:nil])
-        {
-            self.cacheStreamLocation = musicFilePath;
-        }
-        else
-        {
-            YSLog(@"文件创建失败");
-        }
+        NSString* tmpPath = NSTemporaryDirectory();
+        tmpPath = [tmpPath stringByAppendingFormat:@"/%@.mp3", info.md5];
+        [[NSFileManager defaultManager] createFileAtPath:tmpPath contents:nil attributes:nil];
+        self.cacheStreamLocation = tmpPath;
         
         self.streamerEngine = [[[AudioStreamer alloc] initWithURL:[NSURL URLWithString:info.songURLStr]] autorelease];
     }
@@ -209,22 +169,18 @@ static MyWalkManSoundEngine* Engine = nil;
             if (self.toPlayingRow >= self.dataArray.count)
                 self.toPlayingRow = 0;
             
-            //如果音频正常播放完毕，则将其写入localstream表中
+            //如果音频正常播放完毕，则将其写入localmusic表中
             if (self.streamerEngine.stopReason == AS_STOPPING_EOF)
             {
-                NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-                FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-                if (![db open])
-                {
-                    YSLog(@"db open error");
-                }
                 QQMusicSongInfo* info = [self.dataArray objectAtIndex:self.nowPlayingRow];
-                NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:info.infoDict];
-                [dict setValue:[NSString calMD5WithName:info.songURLStr] forKey:@"md5"];
-                [dict setValue:self.cacheStreamLocation forKey:@"path"];
-                [db executeUpdate:InsertIntoLocalStreamDatebase withParameterDictionary:dict];
-                [db close];
+                NSString* tmpPath = NSTemporaryDirectory();
+                tmpPath = [tmpPath stringByAppendingFormat:@"/%@.mp3", info.md5];
+                if ([[NSFileManager defaultManager] fileExistsAtPath:tmpPath])
+                {
+                    [[NSFileManager defaultManager] moveItemAtPath:tmpPath toPath:info.musicPath error:nil];
+                    NSDictionary* paramDict = [NSDictionary dictionaryWithObjectsAndKeys:@"0", @"isDown", nil];
+                    [[YSDatabaseManager shareDatabaseManager] insertWithMusicInfo:info Param:paramDict];
+                }
             }
             
             [self engineStart];

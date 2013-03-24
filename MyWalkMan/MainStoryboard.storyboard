@@ -9,7 +9,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="" hidesBottomBarWhenPushed="YES" id="YeL-oO-fS1" customClass="MusicListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="Jlv-8e-vwc">
-                        <rect key="frame" x="0.0" y="20" width="640" height="440"/>
+                        <rect key="frame" x="0.0" y="64" width="640" height="396"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -64,7 +64,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="JD3-i0-QCT">
                         <barButtonItem key="leftBarButtonItem" id="iy9-cg-P1m">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3BH-no-v8c">
+                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3BH-no-v8c">
                                 <rect key="frame" x="5" y="9" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -97,12 +97,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="bAi-uh-ax3" kind="push" identifier="MusicListToPlayer" id="QXy-eX-gT5"/>
+                        <segue destination="bAi-uh-ax3" kind="custom" identifier="MusicListToPlayer" customClass="HomeMusiclistPlayerSegue" id="QXy-eX-gT5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f9u-AW-MuH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="995" y="42"/>
+            <point key="canvasLocation" x="1299" y="806"/>
         </scene>
         <!--Regard To View Controller-->
         <scene sceneID="ZtY-ch-FPo">
@@ -145,18 +145,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="36G-QW-rWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="979" y="631"/>
+            <point key="canvasLocation" x="583" y="1063"/>
         </scene>
         <!--My Player View Controller-->
         <scene sceneID="rXU-I7-Pv8">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="bAi-uh-ax3" customClass="MyPlayerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fUA-ZT-1Nj">
-                        <rect key="frame" x="0.0" y="20" width="640" height="440"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="SoC-5O-45l">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="418"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="418"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView contentMode="scaleToFill" image="playing_album_default.jpg" id="u9s-bw-hxM">
@@ -195,7 +195,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="y3B-QH-eaE">
-                                <rect key="frame" x="0.0" y="354" width="320" height="86"/>
+                                <rect key="frame" x="0.0" y="462" width="320" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" tag="30003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="HEs-1W-7ae">
@@ -281,7 +281,7 @@
                                 </connections>
                             </scrollView>
                             <view contentMode="scaleToFill" id="Xek-0k-TZh">
-                                <rect key="frame" x="0.0" y="256" width="320" height="98"/>
+                                <rect key="frame" x="0.0" y="364" width="320" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="UDf-jf-cfc">
@@ -327,7 +327,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="d7o-N1-fWg">
-                                <rect key="frame" x="0.0" y="336" width="320" height="23"/>
+                                <rect key="frame" x="0.0" y="444" width="320" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <color key="minimumTrackTintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -436,64 +436,67 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <navigationBar contentMode="scaleToFill" id="NRh-Cp-B2z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <navigationItem id="aGb-zB-pL4">
+                                        <nil key="title"/>
+                                        <barButtonItem key="leftBarButtonItem" id="ON9-dx-1Hn">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="71B-8f-SKZ">
+                                                <rect key="frame" x="5" y="1" width="40" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="back.png">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" image="backSelected.png">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="popBackBtnAction:" destination="bAi-uh-ax3" eventType="touchUpInside" id="UeN-rB-TOi"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                        <view key="titleView" contentMode="scaleToFill" id="PWb-Ww-P4h">
+                                            <rect key="frame" x="90" y="0.0" width="140" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6wF-u9-GS9">
+                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <barButtonItem key="rightBarButtonItem" id="l62-95-yf5">
+                                            <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RNq-kF-94u">
+                                                <rect key="frame" x="276" y="7" width="39" height="29"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" image="playing_list.png">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted" image="playing_list_h.png">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="musicListBtnAction:" destination="bAi-uh-ax3" eventType="touchUpInside" id="Rjd-EA-XeM"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="QDF-y4-zp0">
-                        <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" id="BPZ-DL-i8X">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Mu-g7-zH0">
-                                <rect key="frame" x="5" y="1" width="40" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="popBack" image="back.png">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="backSelected.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="popBackBtnAction:" destination="bAi-uh-ax3" eventType="touchUpInside" id="wNR-2U-Wm8"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                        <view key="titleView" contentMode="scaleToFill" id="1ir-Ij-A94">
-                            <rect key="frame" x="220" y="0.0" width="200" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gu9-hx-wPp">
-                                    <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <barButtonItem key="rightBarButtonItem" id="hhH-to-zT2">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1hA-lZ-ldi">
-                                <rect key="frame" x="596" y="7" width="39" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="musicList" image="playing_list.png">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" image="playing_list_h.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="musicListBtnAction:" destination="bAi-uh-ax3" eventType="touchUpInside" id="6EH-vk-mva"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </barButtonItem>
-                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addtoBtn" destination="WRU-Oe-MTf" id="4Dm-Dr-gDP"/>
@@ -510,24 +513,28 @@
                         <outlet property="lrcLabel" destination="zs2-al-40J" id="GEG-Vr-RRX"/>
                         <outlet property="lrcMaskImageView" destination="DHF-Vl-4mA" id="lYd-ON-dfZ"/>
                         <outlet property="moreBtn" destination="RsX-ZX-7TQ" id="c3m-3B-rd7"/>
+                        <outlet property="musicListBtn" destination="RNq-kF-94u" id="kgw-iu-VuZ"/>
                         <outlet property="nextBtn" destination="5h0-q8-tTm" id="EaH-MP-STb"/>
                         <outlet property="pauseBtn" destination="OaU-R8-AUq" id="Jqq-8P-EQ8"/>
                         <outlet property="playBtn" destination="y4X-zw-vNm" id="Xq2-Ol-ZJN"/>
                         <outlet property="playingtimeSlider" destination="d7o-N1-fWg" id="dMg-x6-XTk"/>
+                        <outlet property="popBackBtn" destination="71B-8f-SKZ" id="1OK-xl-7Ei"/>
                         <outlet property="preBtn" destination="HEs-1W-7ae" id="S3s-Tq-EyP"/>
                         <outlet property="selectedLrcLabel" destination="hVT-X3-jbw" id="1bZ-on-3Nj"/>
                         <outlet property="singerNameLabel" destination="mw9-Rs-zGr" id="QiO-4X-wGC"/>
                         <outlet property="tipsView" destination="Xek-0k-TZh" id="1or-Zp-AqT"/>
-                        <outlet property="titleLabel" destination="Gu9-hx-wPp" id="mVJ-0r-krp"/>
-                        <outlet property="titleView" destination="1ir-Ij-A94" id="4Dl-sB-hgL"/>
+                        <outlet property="titleLabel" destination="6wF-u9-GS9" id="Epk-dP-Ejs"/>
+                        <outlet property="titleView" destination="PWb-Ww-P4h" id="YwZ-Ud-IGg"/>
                         <outlet property="toolView" destination="8AQ-Oy-gDR" id="NRb-N2-VGB"/>
                         <outlet property="volumnSlider" destination="85U-Qr-lJE" id="f75-O2-3pp"/>
                         <segue destination="JzV-He-9pJ" kind="modal" identifier="PlayerToDownload" modalTransitionStyle="coverVertical" id="ghx-oi-j8h"/>
+                        <segue destination="YeL-oO-fS1" kind="custom" identifier="PlayerToMusiclist" customClass="HomeMusiclistPlayerSegue" id="cXh-cv-Wfb"/>
+                        <segue destination="Tbx-7J-ELO" kind="custom" identifier="PlayerToHome" customClass="HomeMusiclistPlayerSegue" id="Ssl-Gb-GCW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B9f-cD-t41" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1815" y="-300"/>
+            <point key="canvasLocation" x="1319" y="-468"/>
         </scene>
         <!--Download List View Controller-->
         <scene sceneID="jk3-xU-kVV">
@@ -669,7 +676,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pcq-k2-cJ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2674" y="61"/>
+            <point key="canvasLocation" x="2454" y="497"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fjG-fZ-IKo">
@@ -777,7 +784,7 @@
             <objects>
                 <viewController id="Tbx-7J-ELO" customClass="HomeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BcI-up-6nD">
-                        <rect key="frame" x="0.0" y="20" width="640" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="640" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="dZI-Wi-pHA">
@@ -1404,7 +1411,7 @@
                         <outlet property="mainScrollView" destination="dZI-Wi-pHA" id="SQJ-yT-mQy"/>
                         <outlet property="pageCtrl" destination="z8h-Kc-5EB" id="RNc-D6-kFR"/>
                         <segue destination="YeL-oO-fS1" kind="push" identifier="HomeVCToMusicListTableSegue" id="WKL-O3-bcc"/>
-                        <segue destination="bAi-uh-ax3" kind="push" identifier="HomeVCToPlayer" id="3sZ-fe-0uH"/>
+                        <segue destination="bAi-uh-ax3" kind="custom" identifier="HomeVCToPlayer" customClass="HomeMusiclistPlayerSegue" id="3sZ-fe-0uH"/>
                         <segue destination="5z9-JU-lHb" kind="custom" identifier="HomeToAbout" customClass="HomeToAboutSegue" id="LgB-hi-IP8"/>
                         <segue destination="JzV-He-9pJ" kind="modal" identifier="HomeToDownload" modalTransitionStyle="flipHorizontal" id="gO3-iT-owx"/>
                     </connections>
@@ -1466,114 +1473,15 @@
         <image name="school.jpg" width="308" height="254"/>
         <image name="soft.jpg" width="483" height="400"/>
     </resources>
-    <classes>
-        <class className="DownloadListCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DownloadListCell.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pauseBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="cancelBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pauseBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="progressLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="singerAndAlbumNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="songNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="DownloadListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DownloadListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="dismissBtnAction:" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="HomeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HomeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homeBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="nowPlayingBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pageCtrlValueChangedAction:" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="homeBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mainScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="pageCtrl" candidateClass="UIPageControl"/>
-            </relationships>
-        </class>
-        <class className="MusicListCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicListCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="playTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="singerNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="songNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MusicListTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicListTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="dismissBarBtnAction:"/>
-            </relationships>
-        </class>
-        <class className="MyPlayerViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyPlayerViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addtoBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="circleBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="downloadBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="favBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="moreBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="musicListBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="nextBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pauseBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="playBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="playingtimeSliderChanged:" candidateClass="UISlider"/>
-                <relationship kind="action" name="popBackBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="preBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="volumnSliderAction:" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="addtoBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="albumNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="beginTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="circleBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="controlScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="downloadBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="endTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="imageBgView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="lrcBgScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="lrcLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="lrcMaskImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="moreBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="nextBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pauseBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="playBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="playingtimeSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="preBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="selectedLrcLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="singerNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tipsView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="volumnSlider" candidateClass="UISlider"/>
-            </relationships>
-        </class>
-        <class className="RegardToViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RegardToViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="affirmBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="affirmBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="tipsLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hh1-Pd-jte"/>
-        <segue reference="gO3-iT-owx"/>
-        <segue reference="3sZ-fe-0uH"/>
+        <segue reference="Ssl-Gb-GCW"/>
+        <segue reference="QXy-eX-gT5"/>
+        <segue reference="cXh-cv-Wfb"/>
+        <segue reference="ghx-oi-j8h"/>
     </inferredMetricsTieBreakers>
 </document>

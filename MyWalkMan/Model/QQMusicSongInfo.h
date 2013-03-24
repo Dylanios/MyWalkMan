@@ -37,7 +37,8 @@
 @property (nonatomic, retain) NSString* playTimeSwitchedStr;
 
 @property (nonatomic, retain) NSString* md5;
-@property (nonatomic, retain) NSString* path;
+@property (nonatomic, retain) NSString* musicPath;
+@property (nonatomic, retain) NSString* lrcPath;
 @property (nonatomic, retain) NSDictionary* infoDict;
 
 - (id)initWithDictionary: (NSDictionary* )dict;

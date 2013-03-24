@@ -13,7 +13,6 @@
 #import "MusicListTableViewController.h"
 #import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
-#import "FMDatabase.h"
 #import "MyWalkManDownLoadEngine.h"
 
 @interface HomeViewController ()
@@ -96,6 +95,8 @@
     if (isNowPlayingBtnAction)
     {
         isNowPlayingBtnAction = NO;
+        MyPlayerViewController* childVC = segue.destinationViewController;
+        childVC.segueParent = @"Home";
         return;
     }
     
@@ -178,26 +179,13 @@
         case 8:
         case 9:
         {
-            NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-            FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-            [db open];
-            FMResultSet* result = nil;
+            NSMutableDictionary* paramDict = [NSMutableDictionary dictionary];
             if (flag == 8)
-                result = [db executeQuery:@"select * from localmusic"];
+                [paramDict setValue:@"1" forKey:@"isDown"];
             else
-                result = [db executeQuery:@"select * from localstream"];
+                [paramDict setValue:@"0" forKey:@"isDown"];
             
-            NSMutableArray* localMusicArray = [NSMutableArray array];
-            while ([result next])
-            {
-                @autoreleasepool {
-                    QQMusicSongInfo* info = [[[QQMusicSongInfo alloc] initWithFMResultSet:result] autorelease];
-                    [localMusicArray addObject:info];
-                }
-            }
-            [db close];
-            self.dataArray = localMusicArray;
+            self.dataArray = [[YSDatabaseManager shareDatabaseManager] localCacheInfoInDatabase:paramDict];
             
             if (btnType == 1)
             {
@@ -226,15 +214,6 @@
         default:
             break;
     }
-
-    /*
-    //本地播放直接跳转
-    if (flag == 8 || flag == 9)
-    {
-
-        return;
-    }
-     */
 }
 
 - (IBAction)nowPlayingBtnAction:(UIButton *)sender

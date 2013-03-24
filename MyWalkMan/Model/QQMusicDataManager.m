@@ -66,7 +66,22 @@
     lrcString = [lrcString substringFromIndex:range.location + range.length];
     range = [lrcString rangeOfString:@"]]></lyric>"];
     lrcString = [lrcString substringToIndex:range.location];
-    NSLog(@"%@", lrcString);
+    
+    QQMusicSongInfo* info = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
+    NSError* error = nil;
+    NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    path = [path stringByAppendingPathComponent:@"com.youngsing.cachelrc"];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    [lrcString writeToFile:info.lrcPath atomically:YES encoding:4 error:&error];
+    if (error)
+    {
+        YSLog(@"%@", [error description]);
+    }
+    
     [self handleLrcWithString:lrcString];
 }
 
@@ -78,11 +93,9 @@
     
     engine.lrc = [YSLrcParser lrcWith:lrcString];
     
-    NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    path = [path stringByAppendingPathComponent:@"cacheLrc"];
-    [engine.cacheLrcDict setValue:lrcString
-                           forKey:[NSString stringWithFormat:@"%d", engine.nowPlayingSongId]];
-    [engine.cacheLrcDict writeToFile:path atomically:YES];
+    QQMusicSongInfo* info = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
+    NSDictionary* paramDict = [NSDictionary dictionaryWithObjectsAndKeys:lrcString, @"lrcData", info.lrcPath, @"lrcPath", nil];
+    [[YSDatabaseManager shareDatabaseManager] updateWithMusicInfo:info Param:paramDict];
 }
 
 @end

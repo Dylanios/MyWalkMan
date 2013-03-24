@@ -10,8 +10,6 @@
 #import "ASIHTTPRequest.h"
 #import "QQMusicSongInfo.h"
 #import <AVFoundation/AVFoundation.h>
-#import "FMDatabase.h"
-#import "NSString+MD5.h"
 
 NSString* const YSDownloadStateChangedNotification = @"YSDownloadStateChangedNotification";
 
@@ -67,37 +65,21 @@ static MyWalkManDownLoadEngine* engine = nil;
     _state = YSSuccess;
     QQMusicSongInfo* toDeleteInfo = [request.userInfo objectForKey:@"info"];
     
-    NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open])
-    {
-        YSLog(@"db open error");
-    }
-    else
-    {    
-        NSString* resultStr = [NSString calMD5WithName:toDeleteInfo.songURLStr];
-        NSString* path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        path = [path stringByAppendingFormat:@"/com.youngsing.cachemusic/%@.mp3", resultStr];
-        [request.responseData writeToFile:path atomically:YES];
-        
-        NSMutableDictionary* dbDict = [NSMutableDictionary dictionaryWithDictionary:toDeleteInfo.infoDict];
-        [dbDict setValue:resultStr forKey:@"md5"];
-        [dbDict setValue:path forKey:@"path"];
-        [db executeUpdate:InsertIntoLocalMusicDatebase withParameterDictionary:dbDict];
-        [db close];
-        
-        [self.requestArray removeObject:request];
-        
-        SystemSoundID soundID;
-        NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"success" ofType:@"caf"]];
-        AudioServicesCreateSystemSoundID((CFURLRef)url, &soundID);
-        AudioServicesPlaySystemSound(soundID);
-        
-        NSNotification* notification = [NSNotification notificationWithName:YSDownloadStateChangedNotification
-                                                                     object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    }
+    [request.responseData writeToFile:toDeleteInfo.musicPath atomically:YES];
+    
+    NSDictionary* paramDict = [NSDictionary dictionaryWithObjectsAndKeys:@"1", @"isDown", nil];
+    [[YSDatabaseManager shareDatabaseManager] insertWithMusicInfo:toDeleteInfo Param:paramDict];
+    
+    [self.requestArray removeObject:request];
+    
+    SystemSoundID soundID;
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"success" ofType:@"caf"]];
+    AudioServicesCreateSystemSoundID((CFURLRef)url, &soundID);
+    AudioServicesPlaySystemSound(soundID);
+    
+    NSNotification* notification = [NSNotification notificationWithName:YSDownloadStateChangedNotification
+                                                                 object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request

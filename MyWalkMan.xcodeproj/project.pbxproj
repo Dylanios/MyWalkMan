@@ -1013,6 +1013,7 @@
 		27CF598916F80DC600D84FFA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CF598616F80DC600D84FFA /* Default@2x.png */; };
 		27CF599516F8359E00D84FFA /* DownloadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CF599416F8359E00D84FFA /* DownloadListViewController.m */; };
 		27CF599816F8368000D84FFA /* DownloadListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CF599716F8368000D84FFA /* DownloadListCell.m */; };
+		27D3E95F16FEC82D00947021 /* HomeMusiclistPlayerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */; };
 		27DB058116F59BAD0042ADBA /* cartoon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB057E16F59BAD0042ADBA /* cartoon.jpg */; };
 		27DB058216F59BAD0042ADBA /* classic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB057F16F59BAD0042ADBA /* classic.jpg */; };
 		27DB058316F59BAD0042ADBA /* new.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB058016F59BAD0042ADBA /* new.jpg */; };
@@ -1111,6 +1112,7 @@
 		27E5B83316F3855B00206C4F /* playing_addto_btn_h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E5B82F16F3855B00206C4F /* playing_addto_btn_h@2x.png */; };
 		27E5B83416F3855B00206C4F /* playing_addto_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E5B83016F3855B00206C4F /* playing_addto_btn.png */; };
 		27E5B83516F3855B00206C4F /* playing_addto_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27E5B83116F3855B00206C4F /* playing_addto_btn@2x.png */; };
+		27E6C1B316FD8A8A00A3A3C2 /* YSDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E6C1B216FD8A8900A3A3C2 /* YSDatabaseManager.m */; };
 		27E8449216F6B9DC0093DB22 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E8449116F6B9DC0093DB22 /* RegexKitLite.m */; };
 		27E8449516F6B9F60093DB22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E8449416F6B9F60093DB22 /* libicucore.dylib */; };
 		27E844A216F705450093DB22 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E844A116F705450093DB22 /* AVFoundation.framework */; };
@@ -2210,6 +2212,8 @@
 		27CF599416F8359E00D84FFA /* DownloadListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadListViewController.m; sourceTree = "<group>"; };
 		27CF599616F8368000D84FFA /* DownloadListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadListCell.h; sourceTree = "<group>"; };
 		27CF599716F8368000D84FFA /* DownloadListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadListCell.m; sourceTree = "<group>"; };
+		27D3E95D16FEC82D00947021 /* HomeMusiclistPlayerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeMusiclistPlayerSegue.h; sourceTree = "<group>"; };
+		27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeMusiclistPlayerSegue.m; sourceTree = "<group>"; };
 		27DB057E16F59BAD0042ADBA /* cartoon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cartoon.jpg; sourceTree = "<group>"; };
 		27DB057F16F59BAD0042ADBA /* classic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = classic.jpg; sourceTree = "<group>"; };
 		27DB058016F59BAD0042ADBA /* new.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = new.jpg; sourceTree = "<group>"; };
@@ -2308,6 +2312,8 @@
 		27E5B82F16F3855B00206C4F /* playing_addto_btn_h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playing_addto_btn_h@2x.png"; sourceTree = "<group>"; };
 		27E5B83016F3855B00206C4F /* playing_addto_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playing_addto_btn.png; sourceTree = "<group>"; };
 		27E5B83116F3855B00206C4F /* playing_addto_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "playing_addto_btn@2x.png"; sourceTree = "<group>"; };
+		27E6C1B116FD8A8900A3A3C2 /* YSDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSDatabaseManager.h; sourceTree = "<group>"; };
+		27E6C1B216FD8A8900A3A3C2 /* YSDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSDatabaseManager.m; sourceTree = "<group>"; };
 		27E8449016F6B9DC0093DB22 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		27E8449116F6B9DC0093DB22 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		27E8449416F6B9F60093DB22 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -2425,6 +2431,8 @@
 				271AED7316FC56EA0095FFB3 /* RegardToViewController.m */,
 				271AED6E16FC550E0095FFB3 /* HomeToAboutSegue.h */,
 				271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */,
+				27D3E95D16FEC82D00947021 /* HomeMusiclistPlayerSegue.h */,
+				27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */,
 			);
 			name = Controller;
 			path = MyWalkMan/Controller;
@@ -3655,6 +3663,8 @@
 				27276CE016F2B3EE008E635B /* MyWalkManSoundEngine.m */,
 				2727867016FBFA7E009CE483 /* MyWalkManDownLoadEngine.h */,
 				2727867116FBFA7E009CE483 /* MyWalkManDownLoadEngine.m */,
+				27E6C1B116FD8A8900A3A3C2 /* YSDatabaseManager.h */,
+				27E6C1B216FD8A8900A3A3C2 /* YSDatabaseManager.m */,
 			);
 			path = Singleton;
 			sourceTree = "<group>";
@@ -4884,6 +4894,8 @@
 				2727867216FBFA7E009CE483 /* MyWalkManDownLoadEngine.m in Sources */,
 				271AED7016FC550E0095FFB3 /* HomeToAboutSegue.m in Sources */,
 				271AED7416FC56EA0095FFB3 /* RegardToViewController.m in Sources */,
+				27E6C1B316FD8A8A00A3A3C2 /* YSDatabaseManager.m in Sources */,
+				27D3E95F16FEC82D00947021 /* HomeMusiclistPlayerSegue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

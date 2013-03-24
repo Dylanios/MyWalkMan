@@ -10,9 +10,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "ASIHTTPRequest.h"
 #import "QQMusicDataManager.h"
-#import "MyWalkManDownLoadEngine.h"
 #import "DownloadListViewController.h"
-#import "FMDatabase.h"
 #import <AVFoundation/AVFoundation.h>
 #import "NSString+MD5.h"
 
@@ -228,6 +226,8 @@
     [_lrcLabel release];
     [_selectedLrcLabel release];
     [_lrcMaskImageView release];
+    [_popBackBtn release];
+    [_musicListBtn release];
     [super dealloc];
 }
 
@@ -257,6 +257,8 @@
     [self setLrcLabel:nil];
     [self setSelectedLrcLabel:nil];
     [self setLrcMaskImageView:nil];
+    [self setPopBackBtn:nil];
+    [self setMusicListBtn:nil];
     [super viewDidUnload];
 }
 
@@ -338,7 +340,14 @@
 
 - (IBAction)popBackBtnAction:(UIButton *)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.segueParent isEqualToString:@"Home"])
+    {
+        [self performSegueWithIdentifier:@"PlayerToHome" sender:self];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"PlayerToMusiclist" sender:self];
+    }
 }
 
 - (IBAction)musicListBtnAction:(UIButton *)sender
@@ -374,58 +383,32 @@
      *                                              b.不存在这首歌：启动ASIHTTPRequest进行下载
      *
      */
-    NSString* dbPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    dbPath = [dbPath stringByAppendingPathComponent:@"MusicDatabase.db"];
-    FMDatabase* db = [FMDatabase databaseWithPath:dbPath];
-    if (![db open])
+    if ([[YSDatabaseManager shareDatabaseManager] isInDatabase:nowPlayingInfo])
     {
-        NSLog(@"%s-----db open error", __func__);
-    }
-    FMResultSet* resultFMSetInMusic = [db executeQuery:@"select * from localmusic where idStr = ?", nowPlayingInfo.idStr];
-    if (resultFMSetInMusic.next)
-    {
-        PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"这位“歌歌”已经在后宫了哦！" Duration:1.5f] autorelease];
-        [self.view addSubview:tipsView];
-        [tipsView animationBeginAndEnd];
-        [db close];
+        if ([[YSDatabaseManager shareDatabaseManager] isMusicDownloaded:nowPlayingInfo])
+        {
+            PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"这位“歌歌”已经在后宫了哦！" Duration:1.5f] autorelease];
+            [self.view addSubview:tipsView];
+            [tipsView animationBeginAndEnd];
+        }
+        else
+        {
+            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:@"1", @"isDown", nil];
+            if ([[YSDatabaseManager shareDatabaseManager] updateWithMusicInfo:nowPlayingInfo Param:dict])
+            {
+                SystemSoundID soundID;
+                NSURL* soundURL = [[NSBundle mainBundle] URLForResource:@"success" withExtension:@"caf"];
+                AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
+                AudioServicesPlaySystemSound(soundID);
+            }
+            else
+            {
+                YSLog(@"数据库转存已下载失败");
+            }
+        
+        }
         [self swipDown:nil];
         return;
-    }
-    else
-    {
-        FMResultSet* resultInStream = [db executeQuery:@"select * from localstream where idStr = ?", nowPlayingInfo.idStr];
-        if (resultInStream.next)
-        {
-            NSString* cache = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            
-            // 判断localmusic文件夹是否存在，不存在则创建
-            NSString* docFilePath = [cache stringByAppendingString:@"/com.youngsing.cachemusic"];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:docFilePath])
-            {
-                [[NSFileManager defaultManager] createDirectoryAtPath:docFilePath withIntermediateDirectories:YES attributes:nil error:nil];
-            }
-            
-            // 获取保存路径，并进行相应的复制、删除操作
-            NSString* filePathInMusic = [cache stringByAppendingFormat:@"/com.youngsing.cachemusic/%@.mp3", [resultInStream stringForColumn:@"md5"]];
-            [[NSFileManager defaultManager] copyItemAtPath:[resultInStream stringForColumn:@"path"]
-                                                    toPath:filePathInMusic
-                                                     error:nil];
-            [[NSFileManager defaultManager] removeItemAtPath:[resultInStream stringForColumn:@"path"]
-                                                       error:nil];
-            QQMusicSongInfo* cutInfo = [[[QQMusicSongInfo alloc] initWithFMResultSet:resultInStream] autorelease];
-            NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:cutInfo.infoDict];
-            [dict setValue:filePathInMusic forKey:@"path"];
-            [db executeUpdate:InsertIntoLocalMusicDatebase withParameterDictionary:dict];
-            [db executeUpdate:@"delete from localstream where idStr = ?", [resultInStream stringForColumn:@"idStr"]];
-            
-            SystemSoundID soundID;
-            NSURL* soundURL = [[NSBundle mainBundle] URLForResource:@"success" withExtension:@"caf"];
-            AudioServicesCreateSystemSoundID((CFURLRef)soundURL, &soundID);
-            AudioServicesPlaySystemSound(soundID);
-            [db close];
-            [self swipDown:nil];
-            return;
-        }
     }
     
     for (ASIHTTPRequest* request in [MyWalkManDownLoadEngine shareEngine].requestArray)
@@ -527,14 +510,14 @@
     MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
     QQMusicSongInfo* info = [engine.dataArray objectAtIndex:engine.nowPlayingRow];
     
-    NSString* lrcString = [engine.cacheLrcDict objectForKey:info.idStr];
-    
+    NSString* lrcString = [NSString stringWithContentsOfFile:info.lrcPath encoding:4 error:nil];
     if (lrcString.length)
     {
         [QQMusicDataManager handleLrcWithString:lrcString];
         [self showLrcView];
         return;
     }
+    
     NSLog(@"%@", info.songLrcURLStr);
     ASIHTTPRequest* request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:info.songLrcURLStr]];
     [request setCompletionBlock:^{
