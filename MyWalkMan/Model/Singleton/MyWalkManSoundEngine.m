@@ -175,6 +175,7 @@ NSString* const YSWalkManPlayStateNotification = @"YSWalkManPlayStateNotificatio
                 QQMusicSongInfo* info = [self.dataArray objectAtIndex:self.nowPlayingRow];
                 NSString* tmpPath = NSTemporaryDirectory();
                 tmpPath = [tmpPath stringByAppendingFormat:@"/%@.mp3", info.md5];
+                
                 if ([[NSFileManager defaultManager] fileExistsAtPath:tmpPath])
                 {
                     [[NSFileManager defaultManager] moveItemAtPath:tmpPath toPath:info.musicPath error:nil];

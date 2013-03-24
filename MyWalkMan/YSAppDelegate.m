@@ -18,7 +18,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if 0
+    BOOL isDirectoryCreated = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isDirectoryCreated"] boolValue];
+    if (!isDirectoryCreated)
+    {
+        NSString* cacheFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString* musicFilePath = [cacheFilePath stringByAppendingPathComponent:@"com.youngsing.cachemusic"];
+        [[NSFileManager defaultManager] createDirectoryAtPath:musicFilePath withIntermediateDirectories:YES attributes:nil error:nil];
+        NSString* lrcFilePath = [cacheFilePath stringByAppendingPathComponent:@"com.youngsing.cachelrc"];
+        [[NSFileManager defaultManager] createDirectoryAtPath:lrcFilePath withIntermediateDirectories:YES attributes:nil error:nil];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isDirectoryCreated"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    /*
     {
         NSFileManager* fm = [NSFileManager defaultManager];
         NSString* docFilePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -69,7 +81,7 @@
         [db executeUpdate:@"update localmusic set path = ? where idStr = '12839'", musicFilePath];
         [db close];
     }
-#endif
+    */
     
     return YES;
 }
