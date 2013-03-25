@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YSViewTransitionProtocol.h"
 
-@interface HomeViewController : UIViewController <UIScrollViewDelegate>
+@interface HomeViewController : UIViewController <UIScrollViewDelegate, YSViewTransitionProtocol>
 {
     NSArray* urlArray;
-    BOOL isNowPlayingBtnAction;
     NSMutableDictionary* cacheDict;
     NSInteger listFlag;
 }
@@ -22,7 +22,6 @@
 
 
 - (IBAction)homeBtnAction:(UIButton *)sender;
-- (IBAction)nowPlayingBtnAction:(UIButton *)sender;
 - (IBAction)pageCtrlValueChangedAction:(UIPageControl *)sender;
 
 @end

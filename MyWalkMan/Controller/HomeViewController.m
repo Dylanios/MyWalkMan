@@ -14,6 +14,8 @@
 #import "MyWalkManSoundEngine.h"
 #import "MyPlayerViewController.h"
 #import "MyWalkManDownLoadEngine.h"
+#import "YSViewTransition.h"
+#import "RegardToViewController.h"
 
 @interface HomeViewController ()
 
@@ -32,15 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    CGFloat height = [UIScreen mainScreen].bounds.size.height - 20 - 44 - 44;
+    // 133 = 20 + 44 + 55 +19
+    CGFloat height = [UIScreen mainScreen].bounds.size.height - 133;
     if ([[UIDevice currentDevice].systemVersion floatValue] < 6.0)
     {
-        self.pageCtrl.center = CGPointMake(160, height - 50);
+        self.pageCtrl.hidden = YES;
     }
     self.mainScrollView.contentSize = CGSizeMake(640, height);
-    self.mainScrollView.pagingEnabled = YES;
-    self.mainScrollView.showsHorizontalScrollIndicator = NO;
-    self.mainScrollView.showsVerticalScrollIndicator = NO;
     urlArray = [[NSArray alloc] initWithObjects:
                 @"http://music.qq.com/musicbox/shop/v3/data/hit/hit_newsong.js",
                 @"http://music.qq.com/musicbox/shop/v3/data/hit/hit_classic.js",
@@ -92,19 +92,26 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if (isNowPlayingBtnAction)
+    if ([segue.identifier isEqualToString:@"HomeToPlayer"])
     {
-        isNowPlayingBtnAction = NO;
-        MyPlayerViewController* childVC = segue.destinationViewController;
-        childVC.segueParent = @"Home";
+        MyPlayerViewController* destinationViewController = segue.destinationViewController;
+        destinationViewController.delegate = self;
         return;
     }
     
-    if ([segue.identifier isEqualToString:@"HomeVCToMusicListTableSegue"])
+    if ([segue.identifier isEqualToString:@"HomeToAbout"])
     {
-        MusicListTableViewController* childVC = segue.destinationViewController;
-        childVC.dataArray = [NSMutableArray arrayWithArray:self.dataArray];
-        childVC.listFlag = listFlag;
+        RegardToViewController* destinationViewController = segue.destinationViewController;
+        destinationViewController.delegate = self;
+        return;
+    }
+    
+    if ([segue.identifier isEqualToString:@"HomeToMusicList"])
+    {
+        MusicListTableViewController* destinationViewController = segue.destinationViewController;
+        destinationViewController.delegate = self;
+        destinationViewController.dataArray = [NSMutableArray arrayWithArray:self.dataArray];
+        destinationViewController.listFlag = listFlag;
     }
 }
 
@@ -131,7 +138,7 @@
             if (cacheData != nil)
             {
                 self.dataArray = [QQMusicDataManager handleWithData:cacheData];
-                [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                [self performSegueWithIdentifier:@"HomeToMusicList"
                                           sender:self];
                 return;
             }
@@ -153,7 +160,7 @@
                 self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
                 if (btnType == 1)
                 {
-                    [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                    [self performSegueWithIdentifier:@"HomeToMusicList"
                                               sender:self];
                 }
                 else
@@ -189,7 +196,7 @@
             
             if (btnType == 1)
             {
-                [self performSegueWithIdentifier:@"HomeVCToMusicListTableSegue"
+                [self performSegueWithIdentifier:@"HomeToMusicList"
                                           sender:self];
             }
             else
@@ -216,12 +223,6 @@
     }
 }
 
-- (IBAction)nowPlayingBtnAction:(UIButton *)sender
-{
-    isNowPlayingBtnAction = YES;
-    [self performSegueWithIdentifier:@"HomeVCToPlayer" sender:self];
-}
-
 - (IBAction)pageCtrlValueChangedAction:(UIPageControl *)sender
 {
     [self.mainScrollView setContentOffset:CGPointMake(sender.currentPage * 320, 0)
@@ -243,6 +244,12 @@
         default:
             break;
     }
+}
+
+- (void)controllerShouldDismiss:(id)controller
+{
+    [YSViewTransition YSPopViewController:controller ToViewController:self];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

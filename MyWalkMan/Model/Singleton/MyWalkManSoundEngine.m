@@ -42,6 +42,7 @@ NSString* const YSWalkManPlayStateNotification = @"YSWalkManPlayStateNotificatio
 {
     if (self = [super init])
     {
+        self.nowPlayingRow = -1;
     }
     return self;
 }
@@ -83,7 +84,6 @@ NSString* const YSWalkManPlayStateNotification = @"YSWalkManPlayStateNotificatio
         [self destroyStreamerEngine];
     }
     //判断将要播放的歌曲是否有本地缓存
-    YSLog(@"%d", [[YSDatabaseManager shareDatabaseManager] isInDatabase:info]);
     if ([[YSDatabaseManager shareDatabaseManager] isInDatabase:info])
     {
         [MyWalkManSoundEngine shareEngine].isLocale = YES;

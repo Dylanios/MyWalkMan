@@ -48,8 +48,12 @@
     [self setTipsLabel:nil];
     [super viewDidUnload];
 }
+
 - (IBAction)affirmBtnAction:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"AboutToHome" sender:self];
+    if ([_delegate respondsToSelector:@selector(controllerShouldDismiss:)])
+    {
+        [_delegate controllerShouldDismiss:self];
+    }
 }
 @end

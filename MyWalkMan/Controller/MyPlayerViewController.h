@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MyWalkManSoundEngine.h"
+#import "YSViewTransitionProtocol.h"
 
 @class QQMusicSongInfo;
 
@@ -22,9 +23,9 @@
     UIBackgroundTaskIdentifier bgTaskId;
 }
 
-@property (retain, nonatomic) QQMusicSongInfo* info;
+@property (assign, nonatomic) id<YSViewTransitionProtocol> delegate;
 
-@property (retain, nonatomic) NSString* segueParent;
+@property (retain, nonatomic) QQMusicSongInfo* info;
 
 @property (retain, nonatomic) IBOutlet UIButton *popBackBtn;
 @property (retain, nonatomic) IBOutlet UIView *titleView;

@@ -15,6 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+
     }
     return self;
 }
@@ -33,4 +34,5 @@
     RELEASE_SAFELY(_playTimeLabel);
     [super dealloc];
 }
+
 @end

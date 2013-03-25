@@ -295,7 +295,6 @@
 
 - (IBAction)preBtnAction:(UIButton *)sender
 {
-//    self.preBtn.enabled = NO;
     offset = 0.0f;
     self.lrcMaskImageView.hidden = YES;
     self.lrcBgScrollView.hidden = YES;
@@ -340,13 +339,9 @@
 
 - (IBAction)popBackBtnAction:(UIButton *)sender
 {
-    if ([self.segueParent isEqualToString:@"Home"])
+    if ([_delegate respondsToSelector:@selector(controllerShouldDismiss:)])
     {
-        [self performSegueWithIdentifier:@"PlayerToHome" sender:self];
-    }
-    else
-    {
-        [self performSegueWithIdentifier:@"PlayerToMusiclist" sender:self];
+        [_delegate controllerShouldDismiss:self];
     }
 }
 
@@ -503,7 +498,7 @@
         return;
     }
     
-    isExitLrcView = YES;
+    
     self.lrcLabel.text = @"";
     self.selectedLrcLabel.text = @"";
     
@@ -515,6 +510,7 @@
     {
         [QQMusicDataManager handleLrcWithString:lrcString];
         [self showLrcView];
+        isExitLrcView = YES;
         return;
     }
     
@@ -523,6 +519,7 @@
     [request setCompletionBlock:^{
         [QQMusicDataManager handleLrcWithData:request.responseData];
         [self showLrcView];
+        isExitLrcView = YES;
     }];
     [request setFailedBlock:^{
         PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"网络君貌似又在玩着抽风，您抽它几下吧。。。" Duration:1.5f] autorelease];

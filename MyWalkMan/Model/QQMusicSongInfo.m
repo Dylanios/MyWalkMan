@@ -46,7 +46,7 @@
     
     if (_matchInt > 9)
     {
-        YSLog(@"%@", _matchStr);
+//        YSLog(@"%@", _matchStr);
     }
     _matchInt += 10;
     

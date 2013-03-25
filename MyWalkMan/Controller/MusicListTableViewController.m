@@ -7,26 +7,18 @@
 //
 
 #import "MusicListTableViewController.h"
-#import "MusicListCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "QQMusicSongInfo.h"
-#import "MyPlayerViewController.h"
+#import "MusicListCell.h"
 #import <AVFoundation/AVFoundation.h>
+#import "YSViewTransition.h"
+#import "MyPlayerViewController.h"
 
 @interface MusicListTableViewController ()
 
 @end
 
 @implementation MusicListTableViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -40,6 +32,12 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    MyPlayerViewController* destinationVC = segue.destinationViewController;
+    destinationVC.delegate = self;
 }
 
 #pragma mark - Table view data source
@@ -57,6 +55,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MusicListCell* cell = [tableView dequeueReusableCellWithIdentifier:@"MusicListCell"];
+//    UISwipeGestureRecognizer* swipRight = [[[UISwipeGestureRecognizer alloc] initWithTarget:self
+//                                                                                     action:@selector(swipRightAction:)] autorelease];
+//    [cell addGestureRecognizer:swipRight];
     
     QQMusicSongInfo* info = [self.dataArray objectAtIndex:indexPath.row];
     
@@ -107,14 +108,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [MyWalkManSoundEngine shareEngine].toPlayingRow = indexPath.row;
-    [MyWalkManSoundEngine shareEngine].dataArray = self.dataArray;
+    [MyWalkManSoundEngine shareEngine].dataArray = [NSMutableArray arrayWithArray:self.dataArray];
     [[MyWalkManSoundEngine shareEngine] engineStart];
     [self performSegueWithIdentifier:@"MusicListToPlayer" sender:self];
 }
 
-- (IBAction)dismissBarBtnAction:(id)sender
+- (IBAction)dismissBtnAction:(UIButton *)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([_delegate respondsToSelector:@selector(controllerShouldDismiss:)])
+    {
+        [_delegate controllerShouldDismiss:self];
+    }
 }
 
 - (void)downloadStateChanged: (NSNotification* )notification
@@ -144,6 +148,74 @@
         default:
             break;
     }
+}
+
+#pragma mark MyPlayerViewControllerDelegate
+- (void)controllerShouldDismiss:(id)controller
+{
+    [YSViewTransition YSPopViewController:controller ToViewController:self];
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+- (void)swipRightAction: (UISwipeGestureRecognizer* )gesture
+{
+    YSLog(@"1234567890");
+    
+    MusicListCell* cell = (MusicListCell* )[gesture view];
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    QQMusicSongInfo* info = [self.dataArray objectAtIndex:indexPath.row];
+    UIImageView* imageView = [self createSwippedCellImageView:info];
+    CGFloat pointY = cell.frame.origin.y - self.tableView.contentOffset.y + 64;
+    CGRect frame = imageView.frame;
+    frame.origin.y = pointY;
+    imageView.frame = frame;
+    [[[UIApplication sharedApplication].delegate window] addSubview:imageView];
+
+    /*
+    CATransition* animation = [CATransition animation];
+    animation.duration = 5.f;
+    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+    animation.type = @"genieEffect";
+    animation.subtype = kCATransitionFromTop;
+    imageView.frame = CGRectMake(320, 480, 0, 0);
+    [imageView.layer addAnimation:animation forKey:@"animation"];
+    */
+    return;
+    MyWalkManSoundEngine* engine = [MyWalkManSoundEngine shareEngine];
+    NSLog(@"%d", engine.nowPlayingRow);
+    [engine.dataArray insertObject:info atIndex:(engine.nowPlayingRow > -1 ? engine.nowPlayingRow + 1 : 0)];
+}
+
+- (UIImageView* )createSwippedCellImageView: (QQMusicSongInfo* )info
+{
+    UIImageView* cellImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 20, 320, 100)] autorelease];
+    
+    UIImageView* albumImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 80, 80)] autorelease];
+    [albumImageView setImageWithURL:[NSURL URLWithString:info.albumURLStr]
+                   placeholderImage:[UIImage imageNamed:@"channel_first_release_default_image_small.png"]];
+    [cellImageView addSubview:albumImageView];
+    
+    UILabel* songLabel = [[[UILabel alloc] initWithFrame:CGRectMake(95, 20, 200, 21)] autorelease];
+    songLabel.text = info.songName;
+    songLabel.font = [UIFont fontWithName:@"Helvetica" size:18];
+    songLabel.backgroundColor = [UIColor clearColor];
+    [cellImageView addSubview:songLabel];
+    
+    UILabel* singerAndAlbumLabel = [[[UILabel alloc] initWithFrame:CGRectMake(95, 65, 200, 21)] autorelease];
+    singerAndAlbumLabel.text = [NSString stringWithFormat:@"%@ ● %@", info.singerName, info.albumName];
+    singerAndAlbumLabel.font = [UIFont fontWithName:@"Helvetica" size:14];
+    singerAndAlbumLabel.backgroundColor = [UIColor clearColor];
+    [cellImageView addSubview:singerAndAlbumLabel];
+    
+    UILabel* timeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(258, 39, 42, 21)] autorelease];
+    timeLabel.text = info.playTimeSwitchedStr;
+    timeLabel.textAlignment = UITextAlignmentCenter;
+    timeLabel.font = [UIFont fontWithName:@"Helvetica" size:14];
+    timeLabel.backgroundColor = [UIColor clearColor];
+    [cellImageView addSubview:timeLabel];
+    
+    
+    return cellImageView;
 }
 
 @end

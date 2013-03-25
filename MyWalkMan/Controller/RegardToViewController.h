@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YSViewTransitionProtocol.h"
 
 @interface RegardToViewController : UIViewController
+
+@property (assign, nonatomic) id<YSViewTransitionProtocol> delegate;
 
 @property (retain, nonatomic) IBOutlet UILabel *tipsLabel;
 @property (retain, nonatomic) IBOutlet UIButton *affirmBtn;

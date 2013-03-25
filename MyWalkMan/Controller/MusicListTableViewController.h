@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YSViewTransitionProtocol.h"
 
-@interface MusicListTableViewController : UITableViewController
+@interface MusicListTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, YSViewTransitionProtocol>
 
+@property (nonatomic, assign) id<YSViewTransitionProtocol> delegate;
 @property (nonatomic, retain) NSMutableArray* dataArray;
 @property (nonatomic, assign) NSInteger listFlag;
+@property (nonatomic, retain) IBOutlet UITableView* tableView;
 
-- (IBAction)dismissBarBtnAction:(id)sender;
+- (IBAction)dismissBtnAction:(UIButton *)sender;
 
 @end

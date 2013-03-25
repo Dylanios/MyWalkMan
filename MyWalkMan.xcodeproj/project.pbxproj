@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		271AED7016FC550E0095FFB3 /* HomeToAboutSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */; };
 		271AED7416FC56EA0095FFB3 /* RegardToViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271AED7316FC56EA0095FFB3 /* RegardToViewController.m */; };
 		271AED7616FC5C380095FFB3 /* my.otf in Resources */ = {isa = PBXBuildFile; fileRef = 271AED7516FC5C380095FFB3 /* my.otf */; };
 		271D2CC716F232F6008EE91B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271D2CC616F232F6008EE91B /* UIKit.framework */; };
@@ -1013,7 +1012,6 @@
 		27CF598916F80DC600D84FFA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27CF598616F80DC600D84FFA /* Default@2x.png */; };
 		27CF599516F8359E00D84FFA /* DownloadListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CF599416F8359E00D84FFA /* DownloadListViewController.m */; };
 		27CF599816F8368000D84FFA /* DownloadListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CF599716F8368000D84FFA /* DownloadListCell.m */; };
-		27D3E95F16FEC82D00947021 /* HomeMusiclistPlayerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */; };
 		27DB058116F59BAD0042ADBA /* cartoon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB057E16F59BAD0042ADBA /* cartoon.jpg */; };
 		27DB058216F59BAD0042ADBA /* classic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB057F16F59BAD0042ADBA /* classic.jpg */; };
 		27DB058316F59BAD0042ADBA /* new.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 27DB058016F59BAD0042ADBA /* new.jpg */; };
@@ -1117,6 +1115,8 @@
 		27E8449516F6B9F60093DB22 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E8449416F6B9F60093DB22 /* libicucore.dylib */; };
 		27E844A216F705450093DB22 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E844A116F705450093DB22 /* AVFoundation.framework */; };
 		27E844A516F7102D0093DB22 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E844A416F7102D0093DB22 /* UIDevice+Hardware.m */; };
+		27F991FC1700042A00B3B288 /* YSViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F991F81700042A00B3B288 /* YSViewTransition.m */; };
+		27F991FD1700042A00B3B288 /* YSViewTransitionSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F991FB1700042A00B3B288 /* YSViewTransitionSegue.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1151,8 +1151,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		271AED6E16FC550E0095FFB3 /* HomeToAboutSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeToAboutSegue.h; sourceTree = "<group>"; };
-		271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeToAboutSegue.m; sourceTree = "<group>"; };
 		271AED7216FC56E90095FFB3 /* RegardToViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegardToViewController.h; sourceTree = "<group>"; };
 		271AED7316FC56EA0095FFB3 /* RegardToViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegardToViewController.m; sourceTree = "<group>"; };
 		271AED7516FC5C380095FFB3 /* my.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = my.otf; sourceTree = "<group>"; };
@@ -2212,8 +2210,6 @@
 		27CF599416F8359E00D84FFA /* DownloadListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadListViewController.m; sourceTree = "<group>"; };
 		27CF599616F8368000D84FFA /* DownloadListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadListCell.h; sourceTree = "<group>"; };
 		27CF599716F8368000D84FFA /* DownloadListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadListCell.m; sourceTree = "<group>"; };
-		27D3E95D16FEC82D00947021 /* HomeMusiclistPlayerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeMusiclistPlayerSegue.h; sourceTree = "<group>"; };
-		27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeMusiclistPlayerSegue.m; sourceTree = "<group>"; };
 		27DB057E16F59BAD0042ADBA /* cartoon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cartoon.jpg; sourceTree = "<group>"; };
 		27DB057F16F59BAD0042ADBA /* classic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = classic.jpg; sourceTree = "<group>"; };
 		27DB058016F59BAD0042ADBA /* new.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = new.jpg; sourceTree = "<group>"; };
@@ -2320,6 +2316,11 @@
 		27E844A116F705450093DB22 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		27E844A316F7102D0093DB22 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
 		27E844A416F7102D0093DB22 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
+		27F991F71700042A00B3B288 /* YSViewTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSViewTransition.h; sourceTree = "<group>"; };
+		27F991F81700042A00B3B288 /* YSViewTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSViewTransition.m; sourceTree = "<group>"; };
+		27F991F91700042A00B3B288 /* YSViewTransitionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSViewTransitionProtocol.h; sourceTree = "<group>"; };
+		27F991FA1700042A00B3B288 /* YSViewTransitionSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSViewTransitionSegue.h; sourceTree = "<group>"; };
+		27F991FB1700042A00B3B288 /* YSViewTransitionSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSViewTransitionSegue.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2419,6 +2420,7 @@
 		271D2CE316F23341008EE91B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				27F991F61700042A00B3B288 /* YSViewTransition */,
 				271D2CE416F23341008EE91B /* HomeViewController.h */,
 				271D2CE516F23341008EE91B /* HomeViewController.m */,
 				275236E416F24015004CF42E /* MusicListTableViewController.h */,
@@ -2429,10 +2431,6 @@
 				27CF599416F8359E00D84FFA /* DownloadListViewController.m */,
 				271AED7216FC56E90095FFB3 /* RegardToViewController.h */,
 				271AED7316FC56EA0095FFB3 /* RegardToViewController.m */,
-				271AED6E16FC550E0095FFB3 /* HomeToAboutSegue.h */,
-				271AED6F16FC550E0095FFB3 /* HomeToAboutSegue.m */,
-				27D3E95D16FEC82D00947021 /* HomeMusiclistPlayerSegue.h */,
-				27D3E95E16FEC82D00947021 /* HomeMusiclistPlayerSegue.m */,
 			);
 			name = Controller;
 			path = MyWalkMan/Controller;
@@ -3715,6 +3713,18 @@
 			path = RegexKitLite;
 			sourceTree = "<group>";
 		};
+		27F991F61700042A00B3B288 /* YSViewTransition */ = {
+			isa = PBXGroup;
+			children = (
+				27F991F91700042A00B3B288 /* YSViewTransitionProtocol.h */,
+				27F991F71700042A00B3B288 /* YSViewTransition.h */,
+				27F991F81700042A00B3B288 /* YSViewTransition.m */,
+				27F991FA1700042A00B3B288 /* YSViewTransitionSegue.h */,
+				27F991FB1700042A00B3B288 /* YSViewTransitionSegue.m */,
+			);
+			path = YSViewTransition;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4892,10 +4902,10 @@
 				2731D26416FACB8F00C4B5C2 /* YSLrcParser.m in Sources */,
 				2731D26A16FACC9700C4B5C2 /* NSString+MD5.m in Sources */,
 				2727867216FBFA7E009CE483 /* MyWalkManDownLoadEngine.m in Sources */,
-				271AED7016FC550E0095FFB3 /* HomeToAboutSegue.m in Sources */,
 				271AED7416FC56EA0095FFB3 /* RegardToViewController.m in Sources */,
 				27E6C1B316FD8A8A00A3A3C2 /* YSDatabaseManager.m in Sources */,
-				27D3E95F16FEC82D00947021 /* HomeMusiclistPlayerSegue.m in Sources */,
+				27F991FC1700042A00B3B288 /* YSViewTransition.m in Sources */,
+				27F991FD1700042A00B3B288 /* YSViewTransitionSegue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
