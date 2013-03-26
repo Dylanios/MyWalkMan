@@ -90,6 +90,11 @@
                                                  name:YSDownloadStateChangedNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioDataNotFoundAction:)
+                                                 name:@"AS_AUDIO_DATA_NOT_FOUND"
+                                               object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:@"NextSongStart"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -217,7 +222,6 @@
     [_addtoBtn release];
     [_circleBtn release];
     [_tipsView release];
-    [_imageBgView release];
     [_titleView release];
     [_titleLabel release];
     [_beginTimeLabel release];
@@ -225,9 +229,8 @@
     [_lrcBgScrollView release];
     [_lrcLabel release];
     [_selectedLrcLabel release];
-    [_lrcMaskImageView release];
-    [_popBackBtn release];
     [_musicListBtn release];
+    [_lrcMaskImageView release];
     [super dealloc];
 }
 
@@ -248,7 +251,6 @@
     [self setAddtoBtn:nil];
     [self setCircleBtn:nil];
     [self setTipsView:nil];
-    [self setImageBgView:nil];
     [self setTitleView:nil];
     [self setTitleLabel:nil];
     [self setBeginTimeLabel:nil];
@@ -256,9 +258,8 @@
     [self setLrcBgScrollView:nil];
     [self setLrcLabel:nil];
     [self setSelectedLrcLabel:nil];
-    [self setLrcMaskImageView:nil];
-    [self setPopBackBtn:nil];
     [self setMusicListBtn:nil];
+    [self setLrcMaskImageView:nil];
     [super viewDidUnload];
 }
 
@@ -436,23 +437,21 @@
 - (void)swipUp: (UIGestureRecognizer* )gesture
 {
     if (isTipsViewShow)
-    {
         return;
-    }
     
     [UIView animateWithDuration:0.25f animations:^{
         self.playingtimeSlider.hidden = YES;
         CGRect frame = self.toolView.frame;
-        frame.origin.y = [UIScreen mainScreen].bounds.size.height - 64 - 86 - 110;
+        /*
+         * 86   控制播放状态的view高度
+         * 110  toolview本身的高度
+         */
+        frame.origin.y = [UIScreen mainScreen].bounds.size.height - 20 - 86 - 110;
         self.toolView.frame = frame;
         
         CGRect frame1 = self.tipsView.frame;
         frame1.origin.y -= 90;
         self.tipsView.frame = frame1;
-        
-        CGRect frame2 = self.imageBgView.frame;
-        frame2.size.height -= 90;
-        self.imageBgView.frame = frame2;
     }];
     isTipsViewShow = YES;
 }
@@ -460,15 +459,9 @@
 - (void)swipDown: (UIGestureRecognizer* )gesture
 {
     if (!isTipsViewShow)
-    {
         return;
-    }
     
     [UIView animateWithDuration:0.25f animations:^{
-        
-        CGRect frame2 = self.imageBgView.frame;
-        frame2.size.height += 90;
-        self.imageBgView.frame = frame2;
         
         CGRect frame1 = self.tipsView.frame;
         frame1.origin.y += 90;
@@ -486,9 +479,7 @@
 - (void)swipLeftToLrc: (UIGestureRecognizer* )gesture
 {
     if (isLrcViewShow)
-    {
         return;
-    }
     
     if (isExitLrcView)
     {
@@ -497,7 +488,6 @@
         self.lrcBgScrollView.hidden = NO;
         return;
     }
-    
     
     self.lrcLabel.text = @"";
     self.selectedLrcLabel.text = @"";
@@ -510,7 +500,6 @@
     {
         [QQMusicDataManager handleLrcWithString:lrcString];
         [self showLrcView];
-        isExitLrcView = YES;
         return;
     }
     
@@ -519,7 +508,6 @@
     [request setCompletionBlock:^{
         [QQMusicDataManager handleLrcWithData:request.responseData];
         [self showLrcView];
-        isExitLrcView = YES;
     }];
     [request setFailedBlock:^{
         PromptView* tipsView = [[[PromptView alloc] initWithTitle:@"网络君貌似又在玩着抽风，您抽它几下吧。。。" Duration:1.5f] autorelease];
@@ -532,13 +520,10 @@
 - (void)swipRightToLrc: (UIGestureRecognizer* )gesture
 {
     if (!isLrcViewShow)
-    {
         return;
-    }
     
     self.lrcMaskImageView.hidden = YES;
     self.lrcBgScrollView.hidden = YES;
-    
     isLrcViewShow = NO;
 }
 
@@ -641,6 +626,7 @@
         }
     }
     
+    isExitLrcView = YES;
     isLrcViewShow = YES;
 }
 
@@ -690,7 +676,7 @@
 {
     CALayer* reflectionLayer = [CALayer layer];
     reflectionLayer.contents = [view layer].contents;
-    reflectionLayer.opacity = 0.5;
+    reflectionLayer.opacity = .4f;
     reflectionLayer.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
     CATransform3D stransform = CATransform3DMakeScale(1.0f, -1.0f, 1.0f);
     CATransform3D transform = CATransform3DTranslate(stransform, 0, -view.frame.size.height, 0);
@@ -715,6 +701,15 @@
         default:
             break;
     }
+}
+
+- (void)audioDataNotFoundAction: (NSNotification* )notification
+{
+    PromptView* tispView = [[[PromptView alloc] initWithTitle:@"抱歉喽，这位“歌歌”好象云游去了，你点下一位吧，啦啦啦～～～" Duration:1.5f] autorelease];
+    [self.view addSubview:tispView];
+    [tispView animationBeginAndEnd];
+    
+    [self performSelector:@selector(nextBtnAction:) withObject:nil afterDelay:1.5f];
 }
 
 @end

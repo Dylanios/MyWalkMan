@@ -17,6 +17,11 @@
 #import "YSViewTransition.h"
 #import "RegardToViewController.h"
 
+#define HomeToMusicList @"HomeToMusicList"
+#define HomeToPlayer    @"HomeToPlayer"
+#define HomeToAbout     @"HomeToAbout"
+#define HomeToDownload  @"HomeToDownload"
+
 @interface HomeViewController ()
 
 @end
@@ -69,7 +74,6 @@
 {
     RELEASE_SAFELY(cacheDict);
     RELEASE_SAFELY(urlArray);
-    RELEASE_SAFELY(_homeBtn);
     RELEASE_SAFELY(_mainScrollView);
     RELEASE_SAFELY(_pageCtrl);
     [super dealloc];
@@ -79,7 +83,6 @@
 {
     cacheDict = nil;
     urlArray = nil;
-    [self setHomeBtn:nil];
     [self setMainScrollView:nil];
     [self setPageCtrl:nil];
     [super viewDidUnload];
@@ -92,21 +95,21 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"HomeToPlayer"])
+    if ([segue.identifier isEqualToString:HomeToPlayer])
     {
         MyPlayerViewController* destinationViewController = segue.destinationViewController;
         destinationViewController.delegate = self;
         return;
     }
     
-    if ([segue.identifier isEqualToString:@"HomeToAbout"])
+    if ([segue.identifier isEqualToString:HomeToAbout])
     {
         RegardToViewController* destinationViewController = segue.destinationViewController;
         destinationViewController.delegate = self;
         return;
     }
     
-    if ([segue.identifier isEqualToString:@"HomeToMusicList"])
+    if ([segue.identifier isEqualToString:HomeToMusicList])
     {
         MusicListTableViewController* destinationViewController = segue.destinationViewController;
         destinationViewController.delegate = self;
@@ -138,7 +141,7 @@
             if (cacheData != nil)
             {
                 self.dataArray = [QQMusicDataManager handleWithData:cacheData];
-                [self performSegueWithIdentifier:@"HomeToMusicList"
+                [self performSegueWithIdentifier:HomeToMusicList
                                           sender:self];
                 return;
             }
@@ -160,7 +163,7 @@
                 self.dataArray = [QQMusicDataManager handleWithData:request.responseData];
                 if (btnType == 1)
                 {
-                    [self performSegueWithIdentifier:@"HomeToMusicList"
+                    [self performSegueWithIdentifier:HomeToMusicList
                                               sender:self];
                 }
                 else
@@ -196,7 +199,7 @@
             
             if (btnType == 1)
             {
-                [self performSegueWithIdentifier:@"HomeToMusicList"
+                [self performSegueWithIdentifier:HomeToMusicList
                                           sender:self];
             }
             else
@@ -209,13 +212,13 @@
         }
         case 10:
         {
-            [self performSegueWithIdentifier:@"HomeToDownload"
+            [self performSegueWithIdentifier:HomeToDownload
                                       sender:self];
             break;
         }
         case 11:
         {
-            [self performSegueWithIdentifier:@"HomeToAbout" sender:self];
+            [self performSegueWithIdentifier:HomeToAbout sender:self];
             break;
         }
         default:

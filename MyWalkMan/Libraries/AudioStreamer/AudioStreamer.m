@@ -434,6 +434,18 @@ void ASReadStreamCallBack
 		}
 		else
 		{
+#pragma mark Custom
+            if ([[NSThread currentThread] isEqual:[NSThread mainThread]])
+			{
+				[self audioDataNotFound];
+			}
+			else
+			{
+				[self performSelectorOnMainThread:@selector(audioDataNotFound)
+                                       withObject:nil
+                                    waitUntilDone:NO];
+			}
+            
 			NSLog(@"%@", [AudioStreamer stringForErrorCode:anErrorCode]);
 		}
 
@@ -1303,12 +1315,16 @@ cleanup:
 - (void)updateMetaData:(NSString *)metaData
 {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:metaData, @"metadata", nil];
-	NSNotification *notification =
-	[NSNotification
-	 notificationWithName:ASUpdateMetadataNotification
-	 object:self
-	 userInfo:userInfo];
+	NSNotification *notification = [NSNotification notificationWithName:ASUpdateMetadataNotification
+                                                                 object:self
+                                                               userInfo:userInfo];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+#pragma mark Custom
+- (void)audioDataNotFound
+{
+    NSNotification* notification = [NSNotification notificationWithName:@"AS_AUDIO_DATA_NOT_FOUND" object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 #endif
 

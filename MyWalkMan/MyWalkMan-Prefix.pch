@@ -31,6 +31,4 @@
     #endif
 
     #define FontOFHelvetica16 [UIFont fontWithName:@"Helvetica" size:16]
-    #define InsertIntoLocalMusicDatebase @"insert into localmusic (albumIdStr, albumLinkStr, albumName, albumURLStr, idStr, matchStr, md5, path, playTimeStr, playTimeSwitchedStr, singerIdStr, singerName, songLrcURLStr, songName, songURLStr, typeStr, urlStr) values(:albumIdStr,:albumLinkStr, :albumName, :albumURLStr, :idStr, :matchStr, :md5, :path, :playTimeStr, :playTimeSwitchedStr, :singerIdStr, :singerName, :songLrcURLStr, :songName, :songURLStr, :typeStr, :urlStr)"
-    #define InsertIntoLocalStreamDatebase @"insert into localstream (albumIdStr, albumLinkStr, albumName, albumURLStr, idStr, matchStr, md5, path, playTimeStr, playTimeSwitchedStr, singerIdStr, singerName, songLrcURLStr, songName, songURLStr, typeStr, urlStr) values(:albumIdStr,:albumLinkStr, :albumName, :albumURLStr, :idStr, :matchStr, :md5, :path, :playTimeStr, :playTimeSwitchedStr, :singerIdStr, :singerName, :songLrcURLStr, :songName, :songURLStr, :typeStr, :urlStr)"
 #endif

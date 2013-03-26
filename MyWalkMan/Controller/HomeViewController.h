@@ -11,12 +11,11 @@
 
 @interface HomeViewController : UIViewController <UIScrollViewDelegate, YSViewTransitionProtocol>
 {
-    NSArray* urlArray;
-    NSMutableDictionary* cacheDict;
-    NSInteger listFlag;
+    NSArray* urlArray;  //音乐来源获取地址
+    NSMutableDictionary* cacheDict; //播放列表的缓存
+    NSInteger listFlag; //指示将要加载哪个列表
 }
 @property (nonatomic, retain) NSArray* dataArray;
-@property (retain, nonatomic) IBOutlet UIButton *homeBtn;
 @property (retain, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (retain, nonatomic) IBOutlet UIPageControl *pageCtrl;
 

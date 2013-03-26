@@ -504,10 +504,9 @@
                         <outlet property="downloadBtn" destination="VAD-Lt-mK8" id="Xyx-97-PXT"/>
                         <outlet property="endTimeLabel" destination="k4R-v1-Jwa" id="21v-he-xxR"/>
                         <outlet property="favBtn" destination="U37-ri-jfN" id="WyB-sy-erk"/>
-                        <outlet property="imageBgView" destination="SoC-5O-45l" id="Aje-6g-P3g"/>
                         <outlet property="lrcBgScrollView" destination="3Ek-ic-IWP" id="czm-be-d6F"/>
                         <outlet property="lrcLabel" destination="zs2-al-40J" id="GEG-Vr-RRX"/>
-                        <outlet property="lrcMaskImageView" destination="DHF-Vl-4mA" id="lYd-ON-dfZ"/>
+                        <outlet property="lrcMaskImageView" destination="DHF-Vl-4mA" id="vf9-iu-gEt"/>
                         <outlet property="moreBtn" destination="RsX-ZX-7TQ" id="c3m-3B-rd7"/>
                         <outlet property="nextBtn" destination="5h0-q8-tTm" id="EaH-MP-STb"/>
                         <outlet property="pauseBtn" destination="OaU-R8-AUq" id="Jqq-8P-EQ8"/>
@@ -1398,115 +1397,13 @@
         <image name="school.jpg" width="308" height="254"/>
         <image name="soft.jpg" width="483" height="400"/>
     </resources>
-    <classes>
-        <class className="DownloadListCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DownloadListCell.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pauseBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="cancelBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pauseBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="progressLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="singerAndAlbumNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="songNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="DownloadListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DownloadListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="dismissBtnAction:" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="HomeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HomeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="homeBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pageCtrlValueChangedAction:" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="homeBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mainScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="pageCtrl" candidateClass="UIPageControl"/>
-            </relationships>
-        </class>
-        <class className="MusicListCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicListCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="playTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="singerNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="songNameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MusicListTableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicListTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="dismissBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="MyPlayerViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyPlayerViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addtoBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="circleBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="downloadBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="favBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="moreBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="musicListBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="nextBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="pauseBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="playBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="playingtimeSliderChanged:" candidateClass="UISlider"/>
-                <relationship kind="action" name="popBackBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="preBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="action" name="volumnSliderAction:" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="addtoBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="albumImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="albumNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="beginTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="circleBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="controlScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="downloadBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="endTimeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="imageBgView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="lrcBgScrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="lrcLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="lrcMaskImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="moreBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="musicListBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="nextBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="pauseBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="playBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="playingtimeSlider" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="popBackBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="preBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="selectedLrcLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="singerNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tipsView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="titleView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="volumnSlider" candidateClass="UISlider"/>
-            </relationships>
-        </class>
-        <class className="RegardToViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RegardToViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="affirmBtnAction:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="affirmBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="tipsLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="gO3-iT-owx"/>
         <segue reference="D7y-tM-j5Z"/>
+        <segue reference="ghx-oi-j8h"/>
     </inferredMetricsTieBreakers>
 </document>
